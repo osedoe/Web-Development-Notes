@@ -73,7 +73,7 @@ const arrowWithTwoParams = (a,b) {
 };
 ```
 
-The cool thing about this functions is how easy we can make one-liners, and promote a more functional-programming approach. We can omit the curly braces, and the _return_ keyword in certain cases.
+The cool thing about this functions is how easy we can make one-liners, and promote a more functional-programming approach. We can omit the curly brackets, and the _return_ keyword in certain cases.
 
 ```javascript
 const foo = () => {
@@ -196,4 +196,4 @@ import add from "arithmeticFunctions";
 add(2, 3);
 ```
 
-**Note:** We won't add the curly braces to the imported value.
+**Note:** We won't add the curly brackets to the imported value.
