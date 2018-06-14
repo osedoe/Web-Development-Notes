@@ -197,3 +197,7 @@ add(2, 3);
 ```
 
 **Note:** We won't add the curly brackets to the imported value.
+
+---
+
+**Downwards data-flow:** It means that only the "most parent" component should fetch data.

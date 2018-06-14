@@ -129,7 +129,7 @@ class SearchBar extends Component {
 
 In general, we should try to start with functional components, and only when we need it, we should switch to class components.
 
-### State
+### Events
 
 Handling events in React takes two steps:
 
@@ -151,3 +151,67 @@ class SearchBar extends Component {
     }
 }
 ```
+
+### State
+
+State is a plain JS object that is used to record in React to user events. Each class component has its own state object. Whenever the componenent state is changed, the component re-renders and its children.
+
+Before using the state of a component, we need to initialize it. It's done setting the property state inside a constructor method.
+
+```JSX
+// ...
+class SearchBar extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {term: '' };
+    }
+    // ...
+}
+```
+
+The `super()` method, as usual, calls the parent constructor.
+
+Whenever we use state, we initialize it by creating a new object and assign it to `this.state`. The object we pass will contain properties that we want to record on the state.
+
+_In the previous case, the **term** meaning the "search term" in a search bar But we can use what we want._
+
+Only inside the constructor function we will change the state like `this.state = {[prop]: '' }`. Everywhere else, we will use `this.setState()`, passing an object that contains the new state that we want the component to have.
+
+```JSX
+// ...
+render() {
+    return <input onChange = {event => this.setState({ term: event.target.value})} />;
+}
+```
+
+### Controlled field/input/form element
+
+It's a form element (like `<input/>`) whose value is set by the state, rather than the opposite.
+
+Usually is the state the one that tells the input what the current value should be.
+
+```JSX
+// ...
+render() {
+    return (
+        <div>
+        <input
+        value = { this.state.term }
+        onChange = { event => this.setState({ term: event.target.value }) } />
+        </div>
+    );
+}
+```
+
+The code that turns this form element into a controlled component is `value = { this.state.term }`.
+
+---
+
+Passing data from the aprent component **App** to a child component, we will define a JSX attribute and make a reference to the JS variable.
+
+```JSX
+<VideoList videos={this.state.videos} />
+```
+
+Passing data like this, is called passing _props_ (or properties).
