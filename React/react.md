@@ -13,6 +13,12 @@ _Disclaimer:_ These notes are an amalgamation of different notes that I have tak
   - [Controlled elements](#Controlled-field/input/form-elements)
   - [Props](#Props)
   - [Using _this_](#A-word-of-caution-with-_this_)
+  - [Render](#Render)
+  - [Nesting components](#Nesting-components-and-accessing-its-data)
+  - [Props.children](#Access-Nested-Data-using-`props.children`)
+- [Digging deeper](#Digging-deeper)
+  - [Events II](#Events-in-React--expanded-)
+  - [Reference a component](#Reference-a-component)
 
 ---
 
@@ -324,9 +330,7 @@ class MyReactComponent extends React.Component {
 
 There's another way to bind this that we will see later on. When we are more familiarized with the concepts.
 
----
-
-### Render
+### Render
 
 The render method is the heart of our components. It's function it's to return
 a single node, or better said, everything have to be wrapped in a parent tag (usually _div_), or just being one rendered.
@@ -346,7 +350,7 @@ when writing the return is good practice doint it so as showed, or if it's short
 
 It's necessary to know that the JSX syntax inside the return is calling `React.createElement()` under the hood.
 
-### Nesting components and accessing its data
+### Nesting Components and accessing its data
 
 A React component can render other React components.
 
@@ -417,8 +421,11 @@ class Heart extends React.Component {
 ![ReactButton](/img/ReactBtn.png)
 
 ---
+---
 
-### Events in React (expanded)
+## Digging deeper
+
+### Events in React -expanded-
 
 React has a Event System that normalize them across different browsers.
 
@@ -461,7 +468,7 @@ class App extends React.Component {
 }
 ```
 
-### Reference a component
+### Reference a Component
 
 We will reference specific components through the `ref` keyword.
 
@@ -620,3 +627,83 @@ class Input extends React.Component {
 ```
 
 Remember to always reference the actual Node we want, not a parent/child, if we are using this `ReacDOM.findDOMNode()` method.
+
+### Lifecycle of Components
+
+_Mounting:_ Component is added to the DOM.  
+_Unmounting:_ Component is removed from the DOM.
+
+There also exists a bunch of methods that would let us access to different stages of the state. of these Components.
+
+1. **componentWillMount():** This lifecycle phase is going to fire off before it's mounted into the DOM, and let us know that is guaranteed to make it into the DOM. It will only fire once.
+2. **ComponentDidMount():** This phase is going to fire off right after the Component has been mounted into the DOM.  Again, it will only happen once.
+3. **ComponentWillUnmount():** This is going to fire when the Component is about to leave the DOM.
+
+```JSX
+class App extends React.Component {
+    constructor() {
+        super();
+        this.state = {val: 0}
+        this.update = this.update.bind(this);
+    }
+    update() {
+        this.setState({val: this.state.val + 1 })
+    }
+    componentWillMount() {
+        console.log("componentWillMount");
+    }
+    render() {
+        console.log("render");
+        return <button onClick={this.update}>{this.state.val}</button>
+    }
+    componentDidMount() {
+        console.log("componentDidMount");
+    }
+    componentWillUnmount() {
+        console.log("componentWillUnmount");
+    }
+}
+
+class Wrapper extends React.Component {
+    mount() {
+        ReactDOM.render(<App />, document.getElementById('a'));
+    }
+    unmount() {
+        ReactDOM.unmountComponentAtNode(document.getElementById('a'));
+    }
+    render() {
+        return (
+            <div>
+                <button onClick={this.mount.bind(this)}>Mount</button>
+                <button onClick={this.unmount.bind(this)}>UnMount</button>
+                <div id="a"></div>
+            </div>
+        );
+    }
+}
+
+// ==========
+
+export default Wrapper;
+```
+
+---
+
+### Managing the state in Lifecycle methods
+
+When we talk about the methods seen in the previous chapter, we need to clear up how to access to the state and promp in each of them.
+
+**componentWillMount():**  
+Here, we have access to our state and prompts but not to the DOM representation of the component, since it hasn't been rendered yet. What it's important here is that we are able to set and modify the state of a component before it renders.
+
+**componentDidMount():**  
+We have access to the component in the DOM _(we can prove that with React.findDOMNode(this) inside the method)_5.
+
+**componentWillUnmount():**  
+We have the opportunity to clean up any running processes that we might need to. Usually this will come handy if some code tries to set the state of a component after it has been ummounted.
+
+### Updating Lifecycle methods in our components
+
+1. **componentWillReceiveProps(nextProps):** It's used to receive new properties, through the parameter nextProps.
+2. **shouldComponentUpdate(nextProps, nextState):** It's going to take in our next props, as well as out next state as arguments. It's important to note that when it says update it means re-render. The actual state of a component can be changed without the component being re-rendered.
+3. **componentDidUpdate(prevProps, prevState):** Used to retrieve the props and state before it's rendered.
