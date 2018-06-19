@@ -420,6 +420,18 @@ class Heart extends React.Component {
 
 ![ReactButton](/img/ReactBtn.png)
 
+### Keys
+
+There's going to be cases when we build lists in JSX that we will need keys.
+They are JSX attributes with an unique value with the form `key=02`.
+
+The library itself will use them to track the list, so we won't use them directly.
+
+As a general rule, a list needs keys when:
+
+- The list items have memory from one render to the next. Like when a to-do list renders, each item must remember whether it was checked off.
+- A list's order might be shuffled. For instantce, in a search result, it might be shuffled from one render to another.
+
 ---
 ---
 
