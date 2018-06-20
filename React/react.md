@@ -16,9 +16,16 @@ _Disclaimer:_ These notes are an amalgamation of different notes that I have tak
   - [Render](#Render)
   - [Nesting components](#Nesting-components-and-accessing-its-data)
   - [Props.children](#Access-Nested-Data-using-`props.children`)
+  - [Keys](#Keys)
 - [Digging deeper](#Digging-deeper)
   - [Events II](#Events-in-React--expanded-)
   - [Reference a component](#Reference-a-component)
+- [Lifecycle of components](Lifecycle-of-components)
+  - [Managing the state in lifecycle methods](#Managing-the-state-in-lifecycle-methods)
+  - [Updating lifecycle methods](#Updating-lifecycle-methods-in-our-components)
+- [Common patterns for passing data](#Programming-patterns)
+  - [From Parent to Child component](#Stateless-components-inherits-from-stateful-components)
+  - [Fromn Child to Parent component](#Child-component-updates-Parent-state)
 
 ---
 
@@ -305,8 +312,6 @@ App.propTypes = {
 
 The new version uses the prop-types library:
 [prop-types](https://www.npmjs.com/package/prop-types)
-
----
 
 ### A word of caution with _this_
 
@@ -640,7 +645,9 @@ class Input extends React.Component {
 
 Remember to always reference the actual Node we want, not a parent/child, if we are using this `ReacDOM.findDOMNode()` method.
 
-### Lifecycle of Components
+---
+
+## Lifecycle of Components
 
 _Mounting:_ Component is added to the DOM.  
 _Unmounting:_ Component is removed from the DOM.
@@ -719,3 +726,232 @@ We have the opportunity to clean up any running processes that we might need to.
 1. **componentWillReceiveProps(nextProps):** It's used to receive new properties, through the parameter nextProps.
 2. **shouldComponentUpdate(nextProps, nextState):** It's going to take in our next props, as well as out next state as arguments. It's important to note that when it says update it means re-render. The actual state of a component can be changed without the component being re-rendered.
 3. **componentDidUpdate(prevProps, prevState):** Used to retrieve the props and state before it's rendered.
+
+---
+
+## Programming patterns
+
+### Stateless components inherits from stateful components
+
+This pattern happens passing down the `state` from a Parent component to a Child one.
+
+So, first we need to build the parent component, which has to get a constructor function to be able to set the initial state.
+
+```JSX
+// Parent.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import { Child } from './Child.js';
+
+class Parent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: 'Rudolf'
+        }
+    }
+    render() {
+        return (
+            <Child name={this.state.name} />
+        );
+    }
+}
+// ====== //
+ReactDOM.render(
+    <Parent />,
+    document.getElementById('app')
+);
+```
+
+As for the Child component, we don't need to import ReactDOM since is going to be rendered inside the Parent component.
+
+Since it's a stateless component, it will receive a props "name", from the Parent state, that we can display through `this.props.[prop-name]`. This is how a Child component can inherit the prop and display it.
+
+We need to remember to **export** the Child component since it's rendered inside another component.
+
+```JSX
+// Child.js
+import React from 'react';
+
+class Child extends React.Component {
+    render() {
+        return (
+            <h1>Hey, my name is {this.props.name}</h1>
+        );
+    }
+}
+
+export default Child;
+```
+
+---
+
+-=[ REMINDER ]=-
+
+A component should never update its own props.
+
+**We use `state` to update information inside a component, while we use `props` to store informatio that can be changed by a different component.**
+
+---
+
+### Child component updates Parent state
+
+The first pattern is based in passing a prop from a stateful Parent component to a stateless Child component. The second one expands on the first one, and as we will see the Parent passes down an _event handler_ to the Child. Then the Child uses that _event handler_ to update the Parent's `state`.
+
+The steps to do this are:
+
+1. The Parent component defines a method that will include `this.setState()`.
+2. It will also bind this method to the instance of the component in the constructor with `this.someFunction = this.someFunction.bind(this)`. This last action ensures that when we pass the method to the Child component, it will still update the Parent one.
+3. Now, we render the Child Component and pass down the method as a prop.
+4. Lastly, the Child component will receive the function and use it as a event-handler. This event will update the parent's state.
+
+```JSX
+// ParentClass.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import { ChildClass } from './ChildClass.js';
+
+class ParentClass extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            totalClicks: 0,
+        }
+        // Step 2
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    // Step 1
+    handleClick() {
+        const total = this.state.totalClicks;
+        this.setState({
+                totalClicks: total + 1,
+            });
+    }
+    render() {
+        return (
+            // Step 3
+            <ChildClass onClick={this.handleClick} />,
+            document.getElementById('app')
+        );
+    }
+}
+```
+
+```JSX
+// ChildClass.js
+import React from 'react';
+
+class ChildClass extends React.Component {
+    render() {
+        return(
+            // Step 4 - Notice that is "onClick" instead of "handleClick" here
+            <button onClick={this.props.onClick}>
+                Click me!
+            </button>
+        );
+    }
+}
+```
+
+### Child component updates Siblings' props
+
+One more time, we will expand the pattern. Now the Child component will update the Parent's `state`, and the Parent will pass this `state` to a Sibling component.
+
+The sum of all these patterns will allow us to interact with components.
+
+Usually, as a golden rule, **each component should just have one job.** So, under this new directive we are going to have one stateless component that will display information and a different stateless component that can change said info.
+
+```JSX
+// Parent.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import { Child } from './Child';
+import { Sibling } from '/Sibling';
+
+class Parent extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: 'Frankfurt'
+        }
+        this.changeName = this.changeName.bind(this);
+    }
+    changeName(newName) {
+        this.setState({
+            name: newName
+        });
+    }
+    render() {
+        return (
+            <div>
+                <Child
+                    // before, Child had both attributes:
+                    // name={this.state.name} and
+                    onChange={this.changeName}
+                />
+                <Sibling
+                    // now, removing it from <Child />:
+                    name={this.state.name}
+                />
+            </div>
+        )
+    }
+}
+```
+
+```JSX
+// Child.js
+import React from 'react';
+
+export class Child extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e) {
+    const name = e.target.value;
+    this.props.onChange(name);
+  }
+
+  render() {
+    return (
+      <div>
+        <select
+          id="great-names"
+          onChange={this.handleChange}>
+
+          <option value="Frarthur">Frarthur</option>
+          <option value="Gromulus">Gromulus</option>
+          <option value="Thinkpiece">Thinkpiece</option>
+        </select>
+      </div>
+    );
+  }
+}
+```
+
+```JSX
+// Sibling.js
+import React from 'react';
+
+export class Sibling extends React.Component {
+  render() {
+    const name = this.props.name;
+    return (
+      <div>
+        <h1>Hey, my name is {name}</h1>
+        <h2>Don't you think {name} is the prettiest name ever?</h2>
+        <h2>Sure am glad that my parents picked {name}!</h2>
+      </div>
+    );
+  }
+}
+```
+
+If we look through the code, we see that the Sibling component is the one in charge of displaying the info, while Child will change it.
