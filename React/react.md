@@ -880,25 +880,23 @@ class Parent extends React.Component {
         }
         this.changeName = this.changeName.bind(this);
     }
+    // Step 1
     changeName(newName) {
         this.setState({
             name: newName
         });
     }
     render() {
+        // Step 2 (Child) and step 5 (Sibling)
+        // Before, <Child/> had both attributes:
+            // name={this.state.name} and onChange.
+        // But now, we will put that attribute into <Sibling/>
         return (
             <div>
-                <Child
-                    // before, Child had both attributes:
-                    // name={this.state.name} and
-                    onChange={this.changeName}
-                />
-                <Sibling
-                    // now, removing it from <Child />:
-                    name={this.state.name}
-                />
+                <Child onChange={this.changeName} />
+                <Sibling name={this.state.name} />
             </div>
-        )
+        );
     }
 }
 ```
@@ -907,51 +905,114 @@ class Parent extends React.Component {
 // Child.js
 import React from 'react';
 
-export class Child extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(e) {
-    const name = e.target.value;
-    this.props.onChange(name);
-  }
-
-  render() {
-    return (
-      <div>
-        <select
-          id="great-names"
-          onChange={this.handleChange}>
-
-          <option value="Frarthur">Frarthur</option>
-          <option value="Gromulus">Gromulus</option>
-          <option value="Thinkpiece">Thinkpiece</option>
-        </select>
-      </div>
-    );
-  }
+class Child extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+    }
+    // Step 3
+    handleChange(e) {
+        const name = e.target.value;
+        this.props.onChange(name);
+    }
+    render() {
+        // Step 4
+        // The event handler will be "onChange={this.handleChange}"
+        return (
+            <div>
+                <select id="great-names"
+                        onChange={this.handleChange}>
+                    <option value="Frarthur">Frarthur</option>
+                    <option value="Gromulus">Gromulus</option>
+                    <option value="Thinkpiece">Thinkpiece</option>
+                </select>
+            </div>
+        );
+    }
 }
+
+export default Child;
 ```
 
 ```JSX
 // Sibling.js
 import React from 'react';
 
-export class Sibling extends React.Component {
-  render() {
-    const name = this.props.name;
-    return (
-      <div>
-        <h1>Hey, my name is {name}</h1>
-        <h2>Don't you think {name} is the prettiest name ever?</h2>
-        <h2>Sure am glad that my parents picked {name}!</h2>
-      </div>
-    );
-  }
+class Sibling extends React.Component {
+    // Step 6
+    render() {
+        const name = this.props.name;
+        return (
+            <div>
+                <h1>Hey, my name is {name}</h1>
+                <h2>Don't you think {name} is the prettiest name ever?</h2>
+                <h2>Sure am glad that my parents picked {name}!</h2>
+            </div>
+        );
+    }
 }
+
+export default Sibling;
 ```
 
 If we look through the code, we see that the Sibling component is the one in charge of displaying the info, while Child will change it.
+
+We can sum up the process as:
+
+1. A stateful parent component defines a function that calls `this.setState`.
+2. We pass down the method to a stateless component inside the render method in the parent through an attribute.
+3. The chosen stateless component defines another function that calls the previous one and takes an _event object_ as an argument.
+4. The stateless comoponent uses this new function as an _event handler_. Therefore, when the event is detected, the parent's state updates.
+5. Back into the stateful parent component, a different child component -Sibling- will be the one in charge of displaying the content.
+6. The stateless component receives the parent's state and displays it with the aid of `this.props.name` and `{name}`.
+
+---
+
+-=[ REMINDER ]=-
+_The idea we need to grasp here is how one child component changes the state while the other one displays it._
+
+---
+
+There's another pattern we need to know with React: **Dividing components into presentational components and container components**.
+
+[Fill]
+
+## Intermediate concepts
+
+Now, we will review a bit more in depth some material we have introduced at the beginning of the notes and some new stuff.
+
+### Styles
+
+**Inline Styles:**  
+Styles that are written as atributes of html tags, as follows:
+
+```JSX
+<h1 style={{ background: 'blue', color: 'red' }}> Hello World </h1>
+```
+
+- The outter curly braces inject JavaScript into JSX.
+- The inner curly braces create a JS object literal.
+
+**Style Object Variables:**  
+An alternative to the inline styles is storing all the styles in an object variable and injecting it to the JSX.
+
+```JSX
+import React from 'react';
+
+const styles = {
+    color: 'blue';
+    background: 'red'
+}
+
+class Example extends React.Component {
+    render() {
+        return (
+            <h1 style={styles}>
+                Example text
+            </h1>
+        );
+    }
+}
+
+export default Example;
+```
