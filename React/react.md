@@ -1,6 +1,6 @@
 # React
 
-_Disclaimer:_ These notes are an amalgamation of different notes that I have taken from different tutorials, books and videos. My suggestion is that you bookmark this page and go straight to the point when you are in doubt of a concept / want to refresh it; rather than reading it from top to bottom, since I consider that there's things that should be in a different order. I tried to kept it concise and sorted from simpler to more complex, but it may have incongruences since sometimes I write down terms and explanations hoping to understand it when I put it with my own words rather than because I got fully grasp of it.  
+_Disclaimer:_ These notes are an amalgamation of different notes that I have taken from different tutorials, books and videos. My suggestion is that you bookmark this page and go straight to the point when you are in doubt of a concept / want to refresh it; rather than reading it from top to bottom, since I consider that there's things that should be in a different order. I tried to kept it concise and sorted from simpler to more complex, but it may have incongruences since sometimes I write down terms and explanations hoping to understand it when I put it with my own words rather than because I got fully grasp of it.
 
 ## Table of Content
 
@@ -23,9 +23,12 @@ _Disclaimer:_ These notes are an amalgamation of different notes that I have tak
 - [Lifecycle of components](Lifecycle-of-components)
   - [Managing the state in lifecycle methods](#Managing-the-state-in-lifecycle-methods)
   - [Updating lifecycle methods](#Updating-lifecycle-methods-in-our-components)
-- [Common patterns for passing data](#Programming-patterns)
+- [Pattern for passing data - First pattern](#First-programming-pattern)
   - [From Parent to Child component](#Stateless-components-inherits-from-stateful-components)
-  - [Fromn Child to Parent component](#Child-component-updates-Parent-state)
+  - [From Child to Parent component](#Child-component-updates-Parent-state)
+  - [Updating props from Child to Sibling](#Child-component-updates-Siblings'-props)
+- [Pattern that divides components between presentational and container ones](#Second-programming-pattern)
+- [Style in React](#Style-in-React)
 
 ---
 
@@ -92,7 +95,7 @@ import React from "react";
 
 const SearchBar = () => {
     // Code
-}
+};
 
 export default SearchBar;
 ```
@@ -399,8 +402,6 @@ class App extends React.Component {
 }
 
 const Button = props => <button>The content is {props.children}</button>
-
-
 ```
 
 Here, we are creating a component Button (not get confused with the tag button), and since the data inside is "React", we can access it using the given `props.children`.
@@ -438,6 +439,7 @@ As a general rule, a list needs keys when:
 - A list's order might be shuffled. For instantce, in a search result, it might be shuffled from one render to another.
 
 ---
+
 ---
 
 ## Digging deeper
@@ -655,7 +657,7 @@ _Unmounting:_ Component is removed from the DOM.
 There also exists a bunch of methods that would let us access to different stages of the state. of these Components.
 
 1. **componentWillMount():** This lifecycle phase is going to fire off before it's mounted into the DOM, and let us know that is guaranteed to make it into the DOM. It will only fire once.
-2. **ComponentDidMount():** This phase is going to fire off right after the Component has been mounted into the DOM.  Again, it will only happen once.
+2. **ComponentDidMount():** This phase is going to fire off right after the Component has been mounted into the DOM. Again, it will only happen once.
 3. **ComponentWillUnmount():** This is going to fire when the Component is about to leave the DOM.
 
 ```JSX
@@ -716,7 +718,7 @@ When we talk about the methods seen in the previous chapter, we need to clear up
 Here, we have access to our state and prompts but not to the DOM representation of the component, since it hasn't been rendered yet. What it's important here is that we are able to set and modify the state of a component before it renders.
 
 **componentDidMount():**  
-We have access to the component in the DOM _(we can prove that with React.findDOMNode(this) inside the method)_5.
+We have access to the component in the DOM \_(we can prove that with React.findDOMNode(this) inside the method)\_5.
 
 **componentWillUnmount():**  
 We have the opportunity to clean up any running processes that we might need to. Usually this will come handy if some code tries to set the state of a component after it has been ummounted.
@@ -728,8 +730,9 @@ We have the opportunity to clean up any running processes that we might need to.
 3. **componentDidUpdate(prevProps, prevState):** Used to retrieve the props and state before it's rendered.
 
 ---
+---
 
-## Programming patterns
+## First programming pattern
 
 ### Stateless components inherits from stateful components
 
@@ -975,13 +978,17 @@ _The idea we need to grasp here is how one child component changes the state whi
 
 There's another pattern we need to know with React: **Dividing components into presentational components and container components**.
 
-[Fill]
+## Second programming pattern
 
-## Intermediate concepts
+### Dividing components into presentational components and container components
+
+...
+
+---
+
+## Style in React
 
 Now, we will review a bit more in depth some material we have introduced at the beginning of the notes and some new stuff.
-
-### Styles
 
 **Inline Styles:**  
 Styles that are written as atributes of html tags, as follows:
@@ -1004,7 +1011,7 @@ const styles = {
     background: 'red'
 }
 
-class Example extends React.Component {
+ export class Example extends React.Component {
     render() {
         return (
             <h1 style={styles}>
@@ -1013,6 +1020,94 @@ class Example extends React.Component {
         );
     }
 }
+```
 
-export default Example;
+Usually, defining a variable named "styles" at the top level of a file is bad practice, but not here.
+
+Note, however, that we are not using export default, since at the moment of writing this, I'm pretty sure that export-default compiles to module.exports throught Babe. And using module.exports we are declaring global variables (it's quite dumb naming a global variable _styles_, we would be all up to conflicts).
+
+**Naming Syntax in React:**  
+In plain JS, we use this syntax
+
+```javascript
+const styles = {
+    "margin-top": "20px",
+    "background-color": "red"
+};
+```
+
+In React, we use camelCase for the styles names and the values when they don't appear in strings, it's assumed that they are in "pixels", hence it can be omitted .
+
+```JSX
+const styles = {
+    marginTop: '20px',
+    backgroundColor: 'red',
+    fontSize: 30 // same as '30px'
+};
+```
+
+---
+
+**Importing styles:**
+Usually, we will write the styles for React in a \*.js file and import it to the different components, as follows:
+
+```JSX
+// styles.js
+const blue = 'rgb(139, 157, 195)';
+const darkBlue = 'rgb(059, 089, 152)';
+const lightBlue = 'rgb(223, 227, 238)';
+const grey = 'rgb(247, 247, 247)';
+const white = 'rgb(255, 255, 255)';
+
+const colorStyles = {
+  blue: blue,
+  darkBlue: darkBlue,
+  lightBlue: lightBlue,
+  grey: grey,
+  white: white
+};
+
+export colorStyles;
+```
+
+```JSX
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { colorStyles } from './styles';
+
+let divStyle = {
+  backgroundColor: styles.darkBlue,
+  color: styles.white
+};
+
+export class Wow extends React.Component {
+  render() {
+    return (
+      <div style={divStyle}>
+        Wow, I stole these colors from Facebook!
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+    <Wow />,
+    document.getElementById('app')
+);
+```
+
+We see that usually we tend to define the styles between the **import**'s and the component declarations, referencing the stylesheet file.
+
+```JSX
+// imports...
+
+const h1Style = {
+    color: styles.color,
+    fontSize: styles.fontSize,
+    fontFamily: styles.fontFamily,
+    padding: styles.padding,
+    margin: 0
+};
+
+// components...
 ```
