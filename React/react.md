@@ -322,11 +322,43 @@ Functional components are stateless, but they usually have `props` passed to the
 These props are passed as a parameter to the functional components, and will be equal to the component's `props` object. It's also good practice to call the parameter "props".
 
 ```JSX
-export const FunctionalComponent = (props) => {
-    return (
-        <h1> {props.title} </h1>
-    );
+// Normal way to display a prop:
+export class MyComponentClass extends React.Component {
+    render() {
+        return <h1>{this.props.title}</h1>;
+    }
 }
+
+// Stateless functional component way to display a prop:
+export const MyComponentClass = (props) => {
+    return <h1>{props.title}</h1>;
+}
+
+// Normal way to display a prop using a variable:
+export class MyComponentClass extends React.component {
+    render() {
+        let title = this.props.title;
+        return <h1>{title}</h1>;
+    }
+}
+
+// Stateless functional component way to display a prop using a variable:
+export const MyComponentClass = (props) => {
+    let title = props.title;
+    return <h1>{title}</h1>;
+}
+```
+
+And the PropTypes are defined after the component declaration as:
+
+```JSX
+const Example = (props) => {
+    return <h1>{props.message}</h1>;
+}
+
+Example.propTypes = {
+    message: React.PropTypes.string.isRequired
+};
 ```
 
 ---
@@ -1044,7 +1076,7 @@ class CommentList extends React.Component {
 }
 ```
 
-Under the directive of what we have seen, we will divide it in two componentes: `ComponentName` and `ComponentNameContainer`.
+Following what we have seen, we will divide it in two componentes: `ComponentName` and `ComponentNameContainer`.
 
 ```JSX
 class CommentListContainer extends React.Component {
