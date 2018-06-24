@@ -262,7 +262,7 @@ Passing data from the parent component **App** to a child component, we will def
 
 Passing data like this, is called passing _props_ (or properties).
 
-### Props
+### Props and PropTypes
 
 Props are a collection of values that are mean to be passed into our components as static values, in opposite of "**state**".
 
@@ -315,6 +315,21 @@ App.propTypes = {
 
 The new version uses the prop-types library:
 [prop-types](https://www.npmjs.com/package/prop-types)
+
+### PROP-TYPES
+
+Functional components are stateless, but they usually have `props` passed to them.  
+These props are passed as a parameter to the functional components, and will be equal to the component's `props` object. It's also good practice to call the parameter "props".
+
+```JSX
+export const FunctionalComponent = (props) => {
+    return (
+        <h1> {props.title} </h1>
+    );
+}
+```
+
+---
 
 ### A word of caution with _this_
 
@@ -980,9 +995,77 @@ There's another pattern we need to know with React: **Dividing components into p
 
 ## Second programming pattern
 
-### Dividing components into presentational components and container components
+### Dividing components into presentational components and container/display components
 
-...
+The pattern we are introducing now is useful when we have a component that does _"too much stuff"_. It will help us identifying them and how to divide them into smaller chunks.
+
+The idea behind it is:  
+
+- **If a component has to have a `state`, make calculations based on `props`, or manage any other logic, then that component should NOT render JSX. Instead, it should render another component which will be the one rendering said JSX.**
+
+In the end, this pattern separates the business logic from the the presentational logic.
+
+The **presentational component** does NOT need:
+
+- `import ReactDOM from 'react-dom'`
+- `ReactDOM.render()`
+
+And we will need to _export_ said class component.  
+We do these things because the presentational component will get rendered by the container component.
+
+The **container component** will render itself in ReactDOM, and in the render-return should render the presentational component, without the HTML-like JSX, and with a prop.
+
+Lastly, coming back to presentational component, it will have to just have a render function that will render the JSX, and pass a `this.props.[name]`.
+
+"_In this programming pattern, the container component does the work of figuring out what to display. The presentational component does the work of actually displaying it. If a component does a significant amount of work in both areas, then that's a sign that you should use this pattern!_"
+
+- [Read More about container components](https://medium.com/@learnreact/container-components-c0e67432e005)  
+- [Talk about the same topic](https://www.youtube.com/watch?v=KYzlpRvWZ6c&t=1351)
+
+Let's see an exampe of a component that fetchs data and renders it.
+
+```JSX
+class CommentList extends React.Component {
+    this.state = {
+        comments: []
+    }
+    componentDidmount() {
+        fetchSomeComments(comments => this.setState({ comments: comments }));
+    }
+    render() {
+        return (
+            <ul>
+                {this.state.comments.map(c=> (
+                    <li>{c.body}-{c.autor}</li>
+                ))}
+            </ul>
+        );
+    }
+}
+```
+
+Under the directive of what we have seen, we will divide it in two componentes: `ComponentName` and `ComponentNameContainer`.
+
+```JSX
+class CommentListContainer extends React.Component {
+    state = { comments: [] };
+    componentDidMount() {
+        fetchSomeComments(comments => this.setState({ comments: comments }));
+    }
+    render() {
+        return <CommentList comments={this.state.comments} />;
+    }
+}
+```
+
+```JSX
+const CommentList = props =>
+    <ul>
+        {props.comments.map(c=> (
+            <li>{c.body}-{c.autor}</li>
+        ))}
+    </ul>
+```
 
 ---
 
