@@ -201,3 +201,24 @@ add(2, 3);
 ---
 
 **Downwards data-flow:** It means that only the "most parent" component should fetch data.
+
+---
+---
+
+## Functional programming (useful methods)
+
+### Reduce
+
+There's a few methods that encourage functional programming in JavaScript: `reduce()`, `map()` and `filter()`.
+
+- **map():** will apply the passed function to each element of an array and return a new array.
+- **filter():** will apply a test function to each element of an array and return a new array with the parameters that pass the test.
+- **reduce():** will apply a given function against an accumulator and each element of an array from left to right to reduce to a single value. In praqctice, for me, it's the hardest to use, but as a general rule of thumb, I tend to write it down in a certain way that helps me use it.
+
+```javascript
+    [array].reduce((accumulator, currentValue) => {
+        // code
+    }, 0 [initialValue:optional:];
+
+    }
+```
