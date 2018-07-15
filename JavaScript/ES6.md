@@ -1,6 +1,19 @@
-# ES6 Perks
+# ES6 additions
 
-## Const and Let VS var
+## Table of Content
+
+- [Const and Let](#Const-and-let-vs-var)
+- [Arrow Functions](#Arrow-functions)
+- [Default paramenters in functions](#Functions-with-default-parameters)
+- [Destructuring Objects](#Destructuring-objects)
+- [Spread Operator](Spread-operator)
+- [OOP Implementations](#OOP-alike-implementations)
+- [Import, Export and Default Export](#import-and-export)
+- [Functional Programming Methods](#Functional-programming-methods)
+
+---
+
+## Const and Let VS Var
 
 We've seen the introduction of two new ways of declaring variables:
 
@@ -203,9 +216,25 @@ add(2, 3);
 **Downwards data-flow:** It means that only the "most parent" component should fetch data.
 
 ---
----
 
-## Functional programming (useful methods)
+### Spread operator
+
+We can use the spread operator to copy an array or combine two of them.
+
+```javascript
+// Copy
+const arr = [ 2, 3, 4, 5 ];
+const resultArr = [...arr]; // [ 2, 3, 4, 5 ]
+```
+
+```javascript
+// Combine two arrays
+const arr1 = [ 1, 2, 3, 4, 5 ];
+const arr2 = [ 6, 7, 8, 9, 10 ];
+const resultArr = [...arr1, ...arr2]; // [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+```
+
+## Functional programming methods
 
 ### Reduce
 
@@ -219,6 +248,4 @@ There's a few methods that encourage functional programming in JavaScript: `redu
     [array].reduce((accumulator, currentValue) => {
         // code
     }, 0 [initialValue:optional:];
-
-    }
 ```
