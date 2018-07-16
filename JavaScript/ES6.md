@@ -9,6 +9,7 @@
 - [Spread Operator](Spread-operator)
 - [OOP Implementations](#OOP-alike-implementations)
 - [Import, Export and Default Export](#import-and-export)
+- [Spread Operator](Spread-operator)
 - [Functional Programming Methods](#Functional-programming-methods)
 
 ---
@@ -120,7 +121,20 @@ sum(5); // 10
 
 ## Spread Operator
 
-[ *Fill* ]
+We can use the spread operator to copy an array or combine two of them.
+
+```javascript
+// Copy
+const arr = [ 2, 3, 4, 5 ];
+const resultArr = [...arr]; // [ 2, 3, 4, 5 ]
+```
+
+```javascript
+// Combine two arrays
+const arr1 = [ 1, 2, 3, 4, 5 ];
+const arr2 = [ 6, 7, 8, 9, 10 ];
+const resultArr = [...arr1, ...arr2]; // [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+```
 
 ## Rest Operator
 
@@ -217,23 +231,6 @@ add(2, 3);
 
 ---
 
-### Spread operator
-
-We can use the spread operator to copy an array or combine two of them.
-
-```javascript
-// Copy
-const arr = [ 2, 3, 4, 5 ];
-const resultArr = [...arr]; // [ 2, 3, 4, 5 ]
-```
-
-```javascript
-// Combine two arrays
-const arr1 = [ 1, 2, 3, 4, 5 ];
-const arr2 = [ 6, 7, 8, 9, 10 ];
-const resultArr = [...arr1, ...arr2]; // [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-```
-
 ## Functional programming methods
 
 ### Reduce
@@ -249,3 +246,28 @@ There's a few methods that encourage functional programming in JavaScript: `redu
         // code
     }, 0 [initialValue:optional:];
 ```
+
+## PadStart and PadEnd Methods
+
+Methods used in Strings that gives us a way to add values to the beginning or end of a string.
+
+```javascript
+let example = 'Jose';
+// It will fill the string up to the specified length
+console.log(example.padStart(10, 'a')); // aaaaaaJose
+
+let example2 = 'Pablo Perez';
+console.log(example2.padStart(10, 'a')); // Pablo Perez
+
+console.log(example.padEnd(10,'a')); // Joseaaaaaa
+
+console.log(example2.padEnd(10, 'a')); // Pablo Perez
+
+let example3 = 'This is a string of 33 characters';
+console.log(example3.length); // 33
+console.log(example3.padStart(100)); // 'This is a string of 33 characters...'
+console.log(example3.padStart(100).length); // 67 empty characters
+console.log(example3.padEnd(1)); // 'This is a string of 33 characters'
+```
+
+It worth noting, if it's not clear enough by the example code, that if the passed length parameter is shorter or equal to the string, it won't change.
