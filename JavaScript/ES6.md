@@ -5,12 +5,13 @@
 - [Const and Let](#Const-and-let-vs-var)
 - [Arrow Functions](#Arrow-functions)
 - [Default paramenters in functions](#Functions-with-default-parameters)
-- [Destructuring Objects](#Destructuring-objects)
-- [Spread Operator](Spread-operator)
+- [Destructuring Aassignments](#Destructuring-assignments)
+- [Spread Operator](#Spread-operator)
+- [Rest Operator](#Rest-operator)
 - [OOP Implementations](#OOP-alike-implementations)
-- [Import, Export and Default Export](#import-and-export)
-- [Spread Operator](Spread-operator)
-- [Functional Programming Methods](#Functional-programming-methods)
+- [Import, Export and Default Export](#import-and-export))
+- [Functional Programming: map, filter and reduce](#Functional-programming-methods)
+- [PadStart and PadEnd](#PadStart-and-PadEndMethods)
 
 ---
 
@@ -113,9 +114,47 @@ sum(5); // 10
 
 ---
 
-## Destructuring Objects
+## Destructuring Assignments
 
-[ *Fill* ]
+It's a JavaScript expression that let us extract values from arrays and properties from objects as variables
+
+It tends to be pretty similar to referencing an object's method or attribute as a variable locally accessible.
+
+```javascript
+let animal = {
+    species: "dog",
+    weight: 21,
+    sound: "woof"
+};
+
+let { species, sound } = animal;
+// It'd be similar to:
+// let species = animal.species;
+// let sound = animal.sound;
+// With the difference that it proves itself more useful when it can take optional default parameters
+
+console.log(`The ${species} makes ${sound}!`);
+```
+
+Another example is when we do it with the React imports.
+
+```javascript
+import React, { Component } from 'react';
+
+class App extends React {
+    // ...
+}
+```
+
+Instead of:
+
+```javascript
+import React from 'react';
+
+class App extends React.Component {
+    // ...
+}
+```
 
 ---
 
@@ -138,7 +177,17 @@ const resultArr = [...arr1, ...arr2]; // [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 ## Rest Operator
 
-[ *Fill* ]
+Similar to the spread operator, we can represent an indefinite number of arguments as an array with the `...` three dots.
+It will turn into an array from 0 to the actual number of arguments passed in the function defined.
+
+It must go as the only or last argument of said functions.
+
+```javascript
+function sum(...args) {
+    return args.reduce((accumulator, currentValue) => accumulator + currentValue;
+    // It will sum all the arguments passed
+}
+```
 
 ---
 
@@ -233,8 +282,6 @@ add(2, 3);
 
 ## Functional programming methods
 
-### Reduce
-
 There's a few methods that encourage functional programming in JavaScript: `reduce()`, `map()` and `filter()`.
 
 - **map():** will apply the passed function to each element of an array and return a new array.
@@ -246,6 +293,8 @@ There's a few methods that encourage functional programming in JavaScript: `redu
         // code
     }, 0 [initialValue:optional:];
 ```
+
+---
 
 ## PadStart and PadEnd Methods
 
