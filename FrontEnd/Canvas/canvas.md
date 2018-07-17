@@ -92,3 +92,21 @@ There's another method that we can use: `fillRect()`, which will draw a rectangl
 ```javascript
 ctx.fillRect(x, y, width, height);
 ```
+
+## Clear Canvas Content
+
+There's a method to clear the canvas context, in case we were building, for example, a game.
+
+```javascript
+ctx.clearRect(0, 0, canvas.width, canvas.width);
+```
+
+## Drawing text on a Canvas
+
+```javascript
+function drawScore() {
+    ctx.font = '16px Arial';
+    ctx.fillStyle = #0095DD';
+    ctx.fillText('Score: ' + score, 8, 20);
+}
+```
