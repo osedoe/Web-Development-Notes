@@ -106,7 +106,7 @@ ctx.clearRect(0, 0, canvas.width, canvas.width);
 ```javascript
 function drawScore() {
     ctx.font = '16px Arial';
-    ctx.fillStyle = #0095DD';
+    ctx.fillStyle = '#0095DD';
     ctx.fillText('Score: ' + score, 8, 20);
 }
 ```
