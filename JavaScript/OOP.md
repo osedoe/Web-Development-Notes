@@ -82,3 +82,58 @@ But duck and all instances of Bird should show that they were constructed by Bir
 Bird.prototype.constructor = Bird;
 duck.constructor // function Bird(){...}
 ```
+
+## Mixins
+
+Behaviour is shared through inheritance, but it doesn't go well with unrelated objects, where it's better to use `mixins`. **Mixins** allows other objects to use a collection of functions.
+
+```javascript
+let flyMixin = function(obj) {
+    obj.fly = function() {
+        console.log("Flying, woosh!");
+    }
+};
+```
+
+It takes an object as an argument and gives said object a method, in this case, `fly()`.
+
+## Private properties
+
+Since JavaScript is not a typed language, properties defined in an object are public.
+
+The way we can protect properties, making thek private is using closures, wrapping the property in a constructor function.
+
+```javascript
+function Bird() {
+    let hatchedEgg = 10; // private property
+    // publicly available method that a bird can use
+    this.getHatchedEggCount = function() {
+        return hatchedEgg;
+    };
+}
+let duck = new Bird();
+duck.getHatchedEggCount(); // returns 10
+```
+
+**Closure:** When a function has access to the context in which it was declared.
+
+## Using IIFE to create modules
+
+```javascript
+let motionModule = (function () {
+  return {
+    glideMixin: function (obj) {
+      obj.glide = function() {
+        console.log("Gliding on the water");
+      };
+    },
+    flyMixin: function(obj) {
+      obj.fly = function() {
+        console.log("Flying, wooosh!");
+      };
+    }
+  }
+}) (); // The two parentheses cause the function to be immediately invoked
+```
+
+In this way, we can call the motionModule object, that contains the defined mixins as methods.
