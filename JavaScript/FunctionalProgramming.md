@@ -32,3 +32,15 @@ Inside the functions we tend to copy the variable or object we are going to mani
 **Slice**, in the other ohand, does not mutate the original array, but it returns a new array that can be saved into a variable.
 
 So using `slice()` instead of `splice()` helps avoid undesired mutation, and we should favour the use of the first one.
+
+### Concat() vs Push()
+
+If we compare both methods, we see that the **push** method mutates the original array while with **concat** we are returning a new array. So we should favour the use of `concat()` instead of `push()`.
+
+---
+
+## Reduce
+
+`Array.prototype.reduce()` is the most general and useful of all array operations. We can solve almost any array processing problem with this method.
+
+That's the main difference with `map()` `filter()`, since **they do not allow interaction between different elements of the array**.

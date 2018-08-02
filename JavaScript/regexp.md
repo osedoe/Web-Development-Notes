@@ -22,7 +22,7 @@ regex.test(str); // True
 
 We can also use the **|** or **OR** operator to search for multiple patterns. We can even concatenate it like `/Human|Cat|Dog/`.
 
-### Flag "i"
+### Flag "i". Ignoring
 
 To ignore the difference between uppercase and lowercase letters, we can use the flag `i`, as`/RegExp/i`.
 
