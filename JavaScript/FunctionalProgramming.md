@@ -44,3 +44,47 @@ If we compare both methods, we see that the **push** method mutates the original
 `Array.prototype.reduce()` is the most general and useful of all array operations. We can solve almost any array processing problem with this method.
 
 That's the main difference with `map()` `filter()`, since **they do not allow interaction between different elements of the array**.
+
+### Every() and Some()
+
+Other useful functional methods are `every()` that will check that every element in an array satisfies a condition passed as a callback, or `some()`, that will check if at least one element satisfies a condition.
+
+Both methods return booleans.
+
+## Currying
+
+The **arity** of a function is the number of arguments it requires.
+
+Therefore, **currying** is converting a function that requires *N* number of arguments or arity, into *N* functions with arity 1. It could be defined as well as restructuring a function so it takes one argument, then returns another function that takes the next argument, and so on.
+
+```javascript
+// Un-curried function
+function unCurried(x, y) {
+  return x + y;
+}
+
+// Curried function
+function curried(x) {
+  return function(y) {
+    return x + y;
+  }
+}
+curried(1)(2) // Returns 3
+```
+
+```javascript
+// Call a curried function in parts:
+var funcForY = curried(1);
+console.log(funcForY(2)); // Prints 3
+```
+
+**Partial application** can be described as applying a few arguments to a function at a time and returning another function that is applied to more arguments.
+
+```javascript
+//Impartial function
+function impartial(x, y, z) {
+  return x + y + z;
+}
+var partialFn = impartial.bind(this, 1, 2);
+partialFn(10); // Returns 13
+```
