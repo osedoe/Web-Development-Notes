@@ -130,7 +130,7 @@ const str = "Viva la vida loca";
 const pattern = /
 ```
 
-### Match all letters and numbers
+### Match all letters and numbers \w
 
 There's a character class that can match all letters of the alphabet and numbers: `\w` being equivalent to `[A-Za-z0-9]`. But including the underscore `_` too.
 
