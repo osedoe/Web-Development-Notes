@@ -42,18 +42,18 @@ To make that search/extraction of a pattern be more than once or the first coinc
 
 ### Match characters inside a RegExp with `.`,`[]` and `-`
 
-* A period inside the RegExp will match any character `/hu./`.
+-   A period inside the RegExp will match any character `/hu./`.
 
-* The use of square brackets `[]` let us match any letter inside them as one option for a position or slot in the pattern.
+-   The use of square brackets `[]` let us match any letter inside them as one option for a position or slot in the pattern.
 
 ```javascript
 const pattern = /b[aeiou]g/;
 // Will match "bag", "beg", "big", "bog", "bug"
 ```
 
-* Using the _hyphen_ "-": It's used to define a range of characters to match -looking like `[a-e]` or `[0-5]`.
+-   Using the _hyphen_ "-": It's used to define a range of characters to match -looking like `[a-e]` or `[0-5]`.
 
-### Negated characters with a caret ^ inside a character set
+### Negated characters with a caret ^ inside a character set -> ^
 
 When we want to match characters that are NOT the ones specifies, we will use the caret [^] symbol.
 
@@ -62,7 +62,7 @@ const patterm = /[^aeiou]/;
 // Will match all characters that are not vowels
 ```
 
-### Match characters that occur one or more times +
+### Match characters that occur one or more times -> +
 
 In this case, we will use the [+] symbol for matching characters that appear one or more times.
 If the occurence happens together, it will count as one match.
@@ -82,7 +82,7 @@ const str1 = "abab";
 str1.match(pattern); // Returns ["a", "a"] (two matches)
 ```
 
-### Match characters that occur zero or more times
+### Match characters that occur zero or more times -> \*
 
 Same as the previous one, but with with 0 or more matches. We will use an asterisk [*] symbol.
 
@@ -96,7 +96,7 @@ gPhrase.match(goRegex); // Returns ["g"]
 oPhrase.match(goRegex); //
 ```
 
-### Greedy and lazy match
+### Greedy and lazy match -> (?)
 
 Greedy match finds the longest possible bit of a string that fits the pattern and returns that.
 Lazy match, on the other hand, finds the smallest possible part of the string.
@@ -117,7 +117,7 @@ If we put the caret symbol outside a character set (outside the square brackets 
 
 ```javascript
 const str = "Ricky Martin";
-const pattern = /^Ricky/
+const pattern = /^Ricky/;
 str.test(pattern); // True
 ```
 
@@ -196,8 +196,8 @@ pattern.test(british); // true
 
 There's two types:
 
-* **Positive:** It will look to make sure the element in the search pattern is there, but won't actually match it. It's used as `(?=...)` where the `...` is the required part that is not matched.
-* **Negative:** It will look to make sure the element in the search pattern is not there. A negative lookahead is used as `(?!...)` where `...` is the pattern that you do not want to be there. The rest of the pattern is returned if the negative part is not present.
+-   **Positive:** It will look to make sure the element in the search pattern is there, but won't actually match it. It's used as `(?=...)` where the `...` is the required part that is not matched.
+-   **Negative:** It will look to make sure the element in the search pattern is not there. A negative lookahead is used as `(?!...)` where `...` is the pattern that you do not want to be there. The rest of the pattern is returned if the negative part is not present.
 
 ```javascript
 // Positive lookahead
@@ -246,5 +246,5 @@ We can use `[String].replace([param1], [param2])` to look for a pattern and repl
 You can also access capture groups in the replacement string with dollar signs `$`, like:
 
 ```javascript
-"Code Camp".replace(/(\w+)\s(\w+)/, '$2 $1'); // returns "Camp Code"
+"Code Camp".replace(/(\w+)\s(\w+)/, "$2 $1"); // returns "Camp Code"
 ```
