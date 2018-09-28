@@ -4,6 +4,8 @@
 
 LESS, SASS, SCSS, Stylus, PostCSS son diferentes pre-procesadores.
 
+## Organizacion de proyectos
+
 Dividiremos ahora el proyecto en dos directorios: _src/_ y _dist/_.
 
 Proyecto/
@@ -15,14 +17,14 @@ Proyecto/
   - img/
   - index.pug
 
-### Less syntax
+### Sintaxis
 
 ```terminal
-$ lessc             # basic syntax
-// Comment
+$ lessc             # sintaxis bâsica
+// Comentario
 ```
 
-La ext de vscode de **easy-less** nos permite leer la primera línea y hacer lo que decimos:
+La extensión de VSCode de **Easy-Less** nos permite leer la primera línea y hacer lo que decimos:
 
 ```less
 // out: index.min.css, compress: true;
@@ -31,7 +33,7 @@ La ext de vscode de **easy-less** nos permite leer la primera línea y hacer lo 
 O podemos hacerlo a través de less con el flag **--compress**.
 En este caso, nos crea dicho archivo css minificado.
 
-_El anidado es similar al SASS._
+**Nota:** _El anidado es similar al SASS._
 
 ### Variables en less
 
@@ -93,8 +95,6 @@ body
 ```
 
 ### Instalacion
-
-Podemos instalar el linter de pug **pug-lint**
 
 ```terminal
 npm install -f pug-lint       # Linter de pug
