@@ -18,10 +18,12 @@ Lo usaremos para encadenar plugins de PostCSS que transforman nuestro CSS
 postcss --help
 ```
 
-PostCSS parts es la pagina para plugins
-(buscar 'awesome something') para readmes de todo en GitHub.
+[PostCSS Parts](https://www.postcss.parts/)
+PostCSS parts es la pagina para PostCSS plugins.
 
-\*.pcss es la extension de postcss
+Si tenemos dudas de como usar algun plugin, podemos probar con _"awesome _[something]"_ en GitHub.
+
+`*.pcss` es la extension de postcss
 
 ## Plugins
 
@@ -30,7 +32,7 @@ PostCSS parts es la pagina para plugins
 - StyleLint: Linter de CSS
 - Postcss-preset-env: Es un pack de plugins.
 
-## Parametros de CSS
+## Parametros de PostCSS en la terminal
 
 Comandos para transformar codigo PostCSS a CSS, utilizando diferentes plugins mencionados en el fichero _`.postcssrc`_.
 
