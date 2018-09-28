@@ -25,10 +25,10 @@ PostCSS parts es la pagina para plugins
 
 ## Plugins
 
--   Autoprefixer: Siempre
--   Clean-css : minifica y optimiza (siempre al final)
--   StyleLint: Linter de CSS
--   Postcss-preset-env: Es un pack de plugins.
+- Autoprefixer: Siempre
+- Clean-css : minifica y optimiza (siempre al final)
+- StyleLint: Linter de CSS
+- Postcss-preset-env: Es un pack de plugins.
 
 ## Parametros de CSS
 
@@ -48,9 +48,9 @@ $ postcss src/css/index.pcss            # PostCSS original
 Primero instalamos los plugins, y luego lo cargaremos rellenando el archivo _.ppostcssrc_.
 
 ```terminal
-$ npm init -y
-$ npm install --save-dev postcss-easy-import
-$ npm install --save-dev postcss-mixins
+npm init -y
+npm install --save-dev postcss-easy-import
+npm install --save-dev postcss-mixins
 ```
 
 Con
