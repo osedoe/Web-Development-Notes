@@ -69,13 +69,20 @@ function curried(x) {
     return x + y;
   }
 }
-curried(1)(2) // Returns 3
+curried(1)(2)       // Returns 3
+```
+
+```javascript
+// Fat arrow version
+const curry = x => y => x + y;
+
+const tres = curry(1)(2);      // 3
 ```
 
 ```javascript
 // Call a curried function in parts:
 var funcForY = curried(1);
-console.log(funcForY(2)); // Prints 3
+console.log(funcForY(2));        // Prints 3
 ```
 
 **Partial application** can be described as applying a few arguments to a function at a time and returning another function that is applied to more arguments.
