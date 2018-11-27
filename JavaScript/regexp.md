@@ -62,7 +62,7 @@ const patterm = /[^aeiou]/;
 // Will match all characters that are not vowels
 ```
 
-### Match characters that occur one or more times -> +
+### Match characters that occur **one** or more times -> +
 
 In this case, we will use the [+] symbol for matching characters that appear one or more times.
 If the occurence happens together, it will count as one match.
@@ -82,7 +82,7 @@ const str1 = "abab";
 str1.match(pattern); // Returns ["a", "a"] (two matches)
 ```
 
-### Match characters that occur zero or more times -> \*
+### Match characters that occur **zero** or more times -> \*
 
 Same as the previous one, but with with 0 or more matches. We will use an asterisk [*] symbol.
 
