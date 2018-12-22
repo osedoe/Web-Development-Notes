@@ -42,16 +42,16 @@ To make that search/extraction of a pattern be more than once or the first coinc
 
 ### Match characters inside a RegExp with `.`,`[]` and `-`
 
--   A period inside the RegExp will match any character `/hu./`.
+-A period inside the RegExp will match any character `/hu./`.
 
--   The use of square brackets `[]` let us match any letter inside them as one option for a position or slot in the pattern.
+-The use of square brackets `[]` let us match any letter inside them as one option for a position or slot in the pattern.
 
 ```javascript
 const pattern = /b[aeiou]g/;
 // Will match "bag", "beg", "big", "bog", "bug"
 ```
 
--   Using the _hyphen_ "-": It's used to define a range of characters to match -looking like `[a-e]` or `[0-5]`.
+-Using the _hyphen_ "-": It's used to define a range of characters to match -looking like `[a-e]` or `[0-5]`.
 
 ### Negated characters with a caret ^ inside a character set -> ^
 
@@ -196,8 +196,8 @@ pattern.test(british); // true
 
 There's two types:
 
--   **Positive:** It will look to make sure the element in the search pattern is there, but won't actually match it. It's used as `(?=...)` where the `...` is the required part that is not matched.
--   **Negative:** It will look to make sure the element in the search pattern is not there. A negative lookahead is used as `(?!...)` where `...` is the pattern that you do not want to be there. The rest of the pattern is returned if the negative part is not present.
+-**Positive:** It will look to make sure the element in the search pattern is there, but won't actually match it. It's used as `(?=...)` where the `...` is the required part that is not matched.
+-**Negative:** It will look to make sure the element in the search pattern is not there. A negative lookahead is used as `(?!...)` where `...` is the pattern that you do not want to be there. The rest of the pattern is returned if the negative part is not present.
 
 ```javascript
 // Positive lookahead
