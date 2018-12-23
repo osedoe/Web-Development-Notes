@@ -14,7 +14,9 @@ tsc test.ts
 # Will create a test.js file in the same directory
 ```
 
-### Type annotations
+Also, if we do `tsc --init` it will create a *tsconfig* file in our root directory.
+
+## Type annotations
 
 Types are ways of record the intended data structure of a function or a variable.
 
@@ -76,12 +78,141 @@ console.log(x[5].toString()); // OK, 'string' and 'number' both have 'toString'
 x[6] = true; // Error, 'boolean' isn't 'string | number'
 ```
 
+### any
+
+There's a special data type in TypeScript call `any`.
+When we assign a *any* data type, we are telling the compiler not to read that viarable in strict mode.
+
+```typescript
+let object1: any = { id: 1, name: 'item 1' };
+
+object1 = { id: 2 };
+```
+
+In the previous case, the compiler would have alerted of a type error in object1, but since we are assigning it a *any* data type we can omit the *name* property of the object.
+
+### Enum and const enum
+
+Enums are a a special data type borrowed from other languages like C# or Java that let us associate a human-readable name with for a specific number.
+
+```typescript
+enum doorState { Open, Close, Ajar };
+```
+
+There's another version of the enum, the `const enum`, that has been introduced for performance reasons.
+
 ---
 
-In the following example we are defining that the parameteres of the _sum_ function are numbers.
+In the following example we are defining that the parameters of the _sum_ function are numbers.
 
 ```typescript
 function sum(a: number, b: number) {
     return a + b;
 }
 ```
+
+### **BONUS:** Explicit casting
+
+There may be moments when we need to explicitly specify the type of an object. We can cast the type of an object in TypeScript with the `<`  `>` syntax.
+
+*NOTE:* This is not strictly a cast, but more like an anssertion, since all the code in converted to JavaScript.
+
+*NOTE 2:* There's a programming principle called **SFIAT** or **_Simply Find a Interface for that Any Type_**, that defends that we should create interfaces instead of using the type any.
+An interface is a way of defining custom types.
+
+## Functions
+
+### Return types in a function
+
+So far we have seen data types for variables. But we can take advantage of the same syntactic sugar used before to define the data type of the return statement in a function.
+
+Taking the last bit of code as a example:
+
+```typescript
+function sum(a: number, b: number): number {
+    return a + b;
+}
+```
+
+### Optional parameters
+
+TypeScript introduces the question mark `?` syntax to specify optional parameters.
+
+```typescript
+function concatStrings( a: string, b: string, c?: string) {
+    return a + b + c;
+}
+```
+
+Remember that the optional parameter must be always the last parameters defined in a function.
+
+### Default parameters
+
+In the same way we can define optional parametes, we could define defualt parameters that they could get when that parameter is being omitted.
+
+```typescript
+function concatStrings( a: string, b: string, c: string = 'hola') {
+    return a + b + c;
+}
+```
+
+### Rest parameters
+
+In JavaScript, we can access the number of parameters passed in a function through the keyword `arguments`.
+
+To do the same in TypeScript we beed the rest parameter syntax
+
+```typescript
+function testArguments(... argArray: number []) {
+    if (argArray.length > 0) {
+        for (var i = 0; i < argArray.length; i++) {
+            console.log(`argArray[${i}] = ${argArray[i]}`);
+            // use JavaScript arguments variable
+            console.log(`arguments[${i}] = ${arguments[i]}`)
+        }
+    }
+}
+testArguments(9);
+testArguments(1,2,3);
+```
+
+### Function overloads
+
+One common task we can do in JavaScript is call the same function with different types.
+The way we could imitate this in TypeScript is with **function overloads**. This, like Java, let us redeclare the same function multiple times, changing the data type of the parameters.
+
+```typescript
+function add (a: string, b: string): string;
+function add (a: number, b: number): number;
+function add (a: any, b: any): any): any {
+    return a + b;
+}
+```
+
+There's three points of interest to note here:
+
+- We only have the body of the function in the last function declaration.
+- The last one should be type _any_.
+- Despite being assigned **always** any at the end, we can oly use the types defined before that.
+
+## Advanced type features
+
+### Union types
+
+TypeScript allows us to define a type as the combination of two or more types using the pipe symbol `|`.
+
+```typescript
+let twoTypes: string | number;
+
+twoTypes = 'hola';
+twoTypes = 1;
+```
+
+### Type guards
+
+A type guard is an expression that performs a check on our type, and guarantees the type within that scope.
+
+### Type aliases
+
+If we are going to use the union types and find them difficultd to remember, we can assign thenm variable names as follows so we can reuse theme wtih ease.
+
