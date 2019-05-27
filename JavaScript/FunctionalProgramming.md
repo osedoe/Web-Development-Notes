@@ -126,7 +126,7 @@ Its advantages are:
 - Less bugs
 - Being able to unit tests those functions
 
-```typescript
+```javascript
 // Passing an anonymous function
 [].map(function(value) {
   return value++;
@@ -143,6 +143,31 @@ const plusOne = value => value++;
 
 ## Composition
 
-Functional composition is an act or mechanism to combine simple functions to build more complicated ones.
+Functional composition is an act or mechanism to combine simple functions to build more complicated ones. The output of one will become the input of the next one, and so on.
 
 It works the same as composition in _mathematics_ -the result of each function is passed as the argument to the next one.
+
+Usually, you will want to wrap one function inside another one.
+
+```javascript
+const result = addTwo(timesThree(23));
+```
+
+The larger the amount of functions we want to compose, the harder it's going to get to read.
+
+A solution to this is to create a **compose** function:
+
+```javascript
+const compose = (...fns) => value => fns.reduceRight((acc, fn) => fn(acc), x);
+
+const timesThreeThenAddTwo = compose(addTwo, timesThree));
+```
+
+The opposite of `compose` is **pipe**, which will read from outside to inside, or better said, fron _left to right_.
+
+```javascript
+const pipe = (...fns) => value => fns.reduce((acc, fn) => fn(acc), x);
+
+// Hence to do 'timesThreeThenAddTwo'...
+const timesThreeThenAddTwo = pipe(timesThree, addTwo));
+```
