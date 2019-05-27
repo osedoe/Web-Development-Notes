@@ -51,9 +51,19 @@ Other useful functional methods are `every()` that will check that every element
 
 Both methods return booleans.
 
+---
+
 ## Currying
 
-The **arity** of a function is the number of arguments it requires.
+**Currying is the act of refactoring one function that takes more than one argument into a _Higher-Order Function_ (HOC) that returns a series of functions each accepting only one argument and only evaluating once we receive our last argument.**
+
+The **arity** of a function is the number of arguments it requires. It can be:
+
+- 1: Unary
+- 2: Binary
+- 3: Ternary
+- 4: Quaternary
+- ...
 
 Therefore, **currying** is converting a function that requires *N* number of arguments or arity, into *N* functions with arity 1. It could be defined as well as restructuring a function so it takes one argument, then returns another function that takes the next argument, and so on.
 
@@ -95,3 +105,44 @@ function impartial(x, y, z) {
 var partialFn = impartial.bind(this, 1, 2);
 partialFn(10); // Returns 13
 ```
+
+### Advantages of Currying
+
+It seems hard at first to find a clear advantage to currying, moreover if we are new to FP. But in the long run it gets easier to reuse abstract fuctions, as well as abstract different implementations.
+
+---
+
+## Pointfree programming
+
+One easy way to simplify and reduce the amount of bugs we have in our code is to avoid passing anonymous functions with interim variables.
+
+There's a lot of methods in JavaScript that tend to have a callback function, like `reduce`, `filter`, `map` or `sort`, taht depend on a second function to evaluate itself.
+
+If we enclose this callbacks in a different function and reference it, this is, a named function -we are making use of what is called **pointfree programming**.
+
+Its advantages are:
+
+- Legibility
+- Less bugs
+- Being able to unit tests those functions
+
+```typescript
+// Passing an anonymous function
+[].map(function(value) {
+  return value++;
+});
+// Or...
+[].map(value => value++);
+
+// With named functions
+const plusOne = value => value++;
+[].map(plusOne);
+```
+
+---
+
+## Composition
+
+Functional composition is an act or mechanism to combine simple functions to build more complicated ones.
+
+It works the same as composition in _mathematics_ -the result of each function is passed as the argument to the next one.
