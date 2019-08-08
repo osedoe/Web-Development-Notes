@@ -146,7 +146,12 @@ if (app.get('env') === 'development') {
 ## Configuration
 
 It's common to store configuration files in each environment.  
-We either can use 'rc' or 'config' from **Npm**, importing the last one with `import Config from 'config'`.
+We either can use [rc](https://www.npmjs.com/package/rc) or [config](https://www.npmjs.com/package/config) from **Npm**.  
+We will import it as usual:
+
+```javascript
+import Config from 'config';
+```
 
 First we will create a `config/` folder and a `default.json` and `development.json` files for default and development configuration parameters.
 
@@ -171,3 +176,115 @@ The way to access these properties is:
 Config.get('name');
 Config.get('mail.host');
 ```
+
+When we want to store sensitive data, we will store it in environment variables. If we set up an _app_password_ EV, we can access it doing the following.
+
+First we will create inside `config/` a `custom-environment-variables.json` file:
+
+```json
+{
+  "mail": {
+    "password": "app_password"
+  }
+}
+```
+
+Then we simply use:
+
+```javascript
+Config.get('mail.password');
+```
+
+## Debugging
+
+Instead of console logging our whole app, we can use a package called `debug` to debug our application, and we can set the debugging level (amount of information displayed) or type though an environment variable.
+
+The debug module returns a function that we will call with an argument that will be a namespace that we define for debugging.
+
+```javascript
+import Debug from 'debug';
+const startupDebugger = Debug('app:startup');
+const dbDebugger = Debug('app:db');
+```
+
+Then all we have to do is replace the _.log_'s with out custom function:
+
+```javascript
+startupDebugger('Morgan enabled...');
+```
+
+Now all we have left to do is set our environment variable **DEBUG** to the parameters we have passed.
+
+```bash
+export DEBUG=app:startup
+# Or
+export dEBUG=app:startup,app:db
+export DEBUG=app:*
+```
+
+We can also set the EV at the time of running our app
+
+```bash
+DEBUG=app:Db nodemon index.js
+```
+
+## Templating engines
+
+So far we have always returned JSON objects, but we can also return HTML markup, doing so with a templating engine.
+
+There's a few, like  `pug`, `handlebars`, etc.
+
+To use **pug**:
+
+```javascript
+// We don't need to require or import it this way
+app.set('view engine', 'pug');
+// Optional param to overwrite the default templates path ('./views/')
+app.set('views', './templates');
+```
+
+_index.pug_
+
+```pug
+html
+    head
+        title= title
+    body
+        h1= message
+```
+
+Now, in our get endpoint, we will render out template in a render method.  
+As the first parameter, we will pass the name of our file inside the template folder, and second an object with the parameters defined.
+
+```javascript
+app.get('/', (req, res) => {
+    res.render('index', {title: 'My App', message: 'Hello'});
+});
+```
+
+## Database integration
+
+[Express options](https://expressjs.com/en/guide/database-integration.html)
+
+To work with a specific database, we just need to install the driver and follow the steps to conenct and then interact with said database.
+
+## Structure application
+
+We should split our endpoints depending of their use or domain field.  
+For that, we will have to adapt the new file that we will want to import to our index as:
+
+```javascript
+const router = Express.Router();
+
+```
+
+Replacing _app_ for _router_ and exporting it at the end. And now back in our `index.ts`:
+
+```javascript
+import { coursesRoute } from './../routes/courses'
+app.use('/api/courses', coursesRoute);
+```
+
+The first argument being a path, and the second our imported module. In this way, we are telling Express that everything that goes through that route has to be pointed to the `courses.ts` file.
+
+Now in our `courses.ts` we can remove the path of our route that we pointed before for each route.
