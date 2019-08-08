@@ -98,7 +98,7 @@ Also, each middleware tends to be in a separate file or module.
 ### Other middlewares
 
 **Url Enconded:**  
-To pass information as _x-www-form-encoded.
+To pass information as _x-www-form-encoded_.
 
 ```javascript
 app.use(Express.urlencoded({extended: true}));
@@ -119,4 +119,55 @@ We can also specify a virtual path as:
 ```javascript
 app.use('static', Express.static('public'));
 // Outputs: localhost:3000/static/example.txt
+```
+
+## Environments
+
+-Development
+-Testing
+-Staging
+-Production
+
+There's two ways:
+
+- Through `process.env.NODE_ENV`: Returns undefined if not set
+- `app.get('env')`: Returns 'development' by defualt
+
+We can set different envitronments to do certain things only in specific ones.
+
+If, for example, we want to use morgan only in development environment:
+
+```javascript
+if (app.get('env') === 'development') {
+    app.use(Morgan('tiny'));
+}
+```
+
+## Configuration
+
+It's common to store configuration files in each environment.  
+We either can use 'rc' or 'config' from **Npm**, importing the last one with `import Config from 'config'`.
+
+First we will create a `config/` folder and a `default.json` and `development.json` files for default and development configuration parameters.
+
+```json
+{
+    "name": "App"
+    "mail": {
+        "host": "prod-mail-server"
+    }
+}
+```
+
+```json
+{
+    "name": "App - Development"
+}
+```
+
+The way to access these properties is:
+
+```javascript
+Config.get('name');
+Config.get('mail.host');
 ```
