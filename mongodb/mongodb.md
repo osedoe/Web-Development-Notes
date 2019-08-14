@@ -236,3 +236,108 @@ And to do queries:
         // also: .select('name tags')
 })();
 ```
+
+## Updat documents
+
+Two approachs:
+
+- **Query first:** Find the document, modify it and then save it.
+- **Update first:** Go to the db and update directly
+
+### Query first
+
+We need to wrap everything in a promise as usual.
+
+1. First we find the document we want to update with `.findById`.
+2. We return the function if it doesn't find it.
+3. We set the values to update through object notation or by the method set.
+
+```typescript
+const update = async (id) => {
+    const movie = await Movie.findById(id);
+    if (!movie) {
+        return;
+    }
+    // Option 1
+    movie.name = 'The Matrix 2';
+    movie.year = 0;
+    // Option2
+    movie.set({
+        name: 'Whatever',
+        year = 1
+    });
+
+    const result = await movie.save();
+    console.log(result);
+};
+```
+
+## Update first
+
+- We will use the update method
+- The first argument is the query or filter object, like `{_id: id}` or `{ isPublished = false}`.
+- The second is the update object where we are going to use one or more [MongoDB Update Operators](https://docs.mongodb.com/manual/reference/operator/update/)
+
+Bear in mind that storing everything that udpate does in a variable won't retrieve just a document but the result ob the operation.
+
+Also, we don't need to call _save_ anymore.
+
+```typescript
+const update = async (id) => {
+    const result = await Movie.update({ _id: id}, {
+        $set: {
+            name: 'Ose',
+        }
+    });
+    console.log(result);
+};
+```
+
+> **Note:** `collection.update` is deprecated. Have a look at the documentation for:
+
+- [collection.updateOne](https://docs.mongodb.com/manual/reference/method/db.collection.updateOne/index.html)
+- [collection.updateMany](https://docs.mongodb.com/manual/reference/method/db.collection.updateMany/)
+- [collection.bulkWrite](https://docs.mongodb.com/manual/reference/method/db.collection.bulkWrite/)
+
+If we want to retrieve the document that was updates, we will use `findByIdAndUpdate`.
+
+```typescript
+const update = async (id) => {
+    const movie = await Movie.findByIdAndUpdate(id, {
+        $set: {
+            name: 'Ose',
+        }
+    });
+    console.log(movie); // returns the object before the changes
+};
+```
+
+Bear in mind that if we want to return the object after is has changed we need to pass a third parameter.
+
+```typescript
+const update = async (id) => {
+    const movie = await Movie.findByIdAndUpdate(id, {
+        $set: {
+            name: 'Ose',
+        }
+    }, { new: true});
+    console.log(movie); // returns the object before the changes
+};
+```
+
+## Remove a document
+
+- The first argument of `deleteOne` is the filter object.
+
+```typescript
+const removeMovie = async id => {
+    const result = await Movie.deleteOne({_id: id});
+    console.log(result);
+};
+
+updateCourse('5d4ecae9eb28d3374bf8443d');
+```
+
+Similar to that, we can use `deleteMany`, or `findByIdAndRemove`
+
+> **Note:** If a method can not find the given id, it will return _null_.
