@@ -341,3 +341,145 @@ updateCourse('5d4ecae9eb28d3374bf8443d');
 Similar to that, we can use `deleteMany`, or `findByIdAndRemove`
 
 > **Note:** If a method can not find the given id, it will return _null_.
+
+## Validators
+
+So far when we defined the schema above, all those parameters were optional.
+
+If we wanted to make a field required we will do as follows:
+
+```typescript
+const createMovie = async () => {
+    const movie = new Movie({
+        name: { type: String, required: true},
+    });
+
+    try {
+        const result = await movie.save();
+        console.log(result);
+    } catch(err) {
+        console.log(err);
+    }
+};
+```
+
+It's important the we wrap the save method on a try/catch in case there's a error with the validation, we can display it.
+
+Other way of doing it, it's to call the `validate()` method that returns a _Promise_ with void.
+
+```typescript
+const createMovie = async () => {
+    const movie = new Movie({
+        name: { type: String, required: true},
+    });
+
+    try {
+        await.movie.validate(); // will be the same as the previous code block
+    } catch(err) {
+        console.log(err);
+    }
+};
+```
+
+### Built-in validators in Mongoose
+
+[Built-in validators link](https://mongoosejs.com/docs/validation.html#built-in-validators)
+
+If, for example, we wanted to make a field conditionally required, instead of passing `required: true` we can pass a function.
+
+```typescript
+const createMovie = async () => {
+    const movie = new Movie({
+        name: String,
+        isPublished: boolean,
+        price: {
+            type: Number,
+            required: function() {
+                return this.isPublished
+            }
+        }
+    }),
+}
+```
+
+We have also other validators, like:
+
+- **minlength**: `minlength: 5`,
+- **maxlength**: `maxlength: 255`,
+- **match**: `match: /regEx/`,
+- **enum**: `enum: ['action', 'comedy']`
+- **min** and **max**: for Number types and dates
+
+### Custom validators
+
+```typescript
+const createMovie = async () => {
+    const movie = new Movie({
+        name: String,
+        categories: {
+            type: Array,
+            validate: {
+                validator: function(value) {
+                    return value && value.length > 0;
+                },
+                message: 'A movie should have at least one category'
+            }
+        }
+    }),
+}
+```
+
+## Async validator
+
+```typescript
+const createMovie = async () => {
+    const movie = new Movie({
+        name: String,
+        categories: {
+            type: Array,
+            validate: {
+                isAsync: true,
+                validator: function(value, callback) {
+                    // async work
+                    setTimeout(() => {
+                        const result = value && value.length > 0;
+                        callback(result);
+                    }, 2000);
+                },
+                message: 'A movie should have at least one category'
+            }
+        }
+    }),
+}
+```
+
+## SchemaType Options
+
+When we are defining a Schema and turn the type from just a primitive to an object to pass ir more options, we are definint a SchemaType object.
+
+_For strings:_
+
+- **lowercase**: It will turn the field value passed to lowecase. // `lowercase: true`
+- **uppercase**: Turn the value to uppercase. // `uppercase: true`
+- **trim**: Remove the whitespace. // `trim: true`
+
+_For any:_
+
+- **custom getter and setter**:
+
+```typescript
+const createMovie = async () => {
+    const movie = new Movie({
+        name: String,
+        isPublished: boolean,
+        price: {
+            type: Number,
+            required: function() {
+                return this.isPublished
+            },
+            get: value => Math.round(value),
+            set: value => Math.round(value)
+        }
+    }),
+}
+```
