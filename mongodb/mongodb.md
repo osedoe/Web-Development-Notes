@@ -531,7 +531,7 @@ Depending on the type of relationship we will use one or another depending of wh
 
 > _`Embedding is prefered on 1:1 relationships`_
 
-### One-to-Many 1:N
+### One-to-Many (1:N)
 
 - EMBEDDING OR DENORMALIZATION
 
@@ -620,4 +620,74 @@ We find three problems with this approach here.
     comment: "Not so awesome blog"
   }]
 }
+```
+
+> _When you have the possibility of splitting up your documents into discreet batches, it makes sense to consider bucketing to speed up document retrieval._  
+> _Typical cases where bucketing is appropriate are ones such as bucketing data by hours, days or number of entries on a page (like comments pagination)._
+
+### Many-to-Many (N:M)
+
+- TWO WAY EMBEDDING
+
+```typescript
+{
+  _id: 1,
+  name: "Peter Standford",
+  books: [1, 2]
+}
+{
+  _id: 2,
+  name: "Georg Peterson",
+  books: [2]
+}
+```
+
+```typescript
+{
+  _id: 1,
+  title: "A tale of two people",
+  categories: ["drama"],
+  authors: [1, 2]
+}
+{
+  _id: 2,
+  title: "A tale of two space ships",
+  categories: ["scifi"],
+  authors: [1]
+}
+```
+
+- ONE WAY EMBEDDING
+
+> _The One Way Embedding strategy chooses to optimize the read performance of a N:M relationship by embedding the references in one side of the relationship.
+
+```typescript
+// Category
+{
+  _id: 1,
+  name: "drama"
+}
+```
+
+```typescript
+{
+  _id: 1,
+  title: "A tale of two people",
+  categories: [1],
+  authors: [1, 2]
+}
+```
+
+---
+
+Create relationships in the Schema
+
+```typescript
+const Couse = mongoose.model('Course', new mongoose.Schema({
+    name: String,
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Author'
+    }
+}))
 ```
