@@ -237,7 +237,7 @@ And to do queries:
 })();
 ```
 
-## Updat documents
+## Update documents
 
 Two approachs:
 
@@ -481,5 +481,143 @@ const createMovie = async () => {
             set: value => Math.round(value)
         }
     }),
+}
+```
+
+## Modelling relationships
+
+[Schema basics](http://learnmongodbthehardway.com/schema/schemabasics/)
+
+There's three approachs to link documents in MongoDB:
+
+- **Normalization**: Using references (Best for consistency)
+- **Denormalization**: Using embedded documents (Best for performance)
+- **Hybrid**: Using a mix of the two, embedding only the properties we want.
+  
+Depending on the type of relationship we will use one or another depending of what we want to achieve and our requirements.
+
+### One-to-One (1:1)
+
+- EMBEDDING OR DENORMALIZATION
+
+```typescript
+{
+  name: "Peter Wilkinson",
+  age: 27,
+  address: {
+    street: "100 some road",
+    city: "Nevermore"
+  }
+}
+```
+
+- LINKING OR NORMALIZATION
+
+```typescript
+{
+  _id: 1,
+  name: "Peter Wilkinson",
+  age: 27
+}
+```
+
+```typescript
+{
+  user_id: 1, // foreign key
+  street: "100 some road",
+  city: "Nevermore"
+}
+```
+
+> _`Embedding is prefered on 1:1 relationships`_
+
+### One-to-Many 1:N
+
+- EMBEDDING OR DENORMALIZATION
+
+In this case we embed two comments into a blog post
+
+```typescript
+{
+  title: "An awesome blog",
+  url: "http://awesomeblog.com",
+  text: "This is an awesome blog we have just started",
+  comments: [{
+    name: "Peter Critic",
+    created_on: ISODate("2014-01-01T10:01:22Z"),
+    comment: "Awesome blog post"
+  }, {
+    name: "John Page",
+    created_on: ISODate("2014-01-01T11:01:22Z"),
+    comment: "Not so awesome blog"
+  }]
+}
+```
+
+We find three problems with this approach here.
+
+1. The comments array can grow larger thn the document size limit (16MB)
+2. Write performance
+3. A pagination would be hard to implement since we retrieve all the comments.
+
+- LINKING
+
+```typescript
+{
+  _id: 1,
+  title: "An awesome blog",
+  url: "http://awesomeblog.com",
+  text: "This is an awesome blog we have just started"
+}
+```
+
+```typescript
+{
+  blog_entry_id: 1,
+  name: "Peter Critic",
+  created_on: ISODate("2014-01-01T10:01:22Z"),
+  comment: "Awesome blog post"
+}
+{
+  blog_entry_id: 1,
+  name: "John Page",
+  created_on: ISODate("2014-01-01T11:01:22Z"),
+  comment: "Not so awesome blog"
+}
+```
+
+- BUCKETING
+
+> _It's a hybrid of the two above. Basically, it tries to balance the rigidity of the embedding strategy with the flexibility of the linking strategy. For this example, we will split the comments into buckets with a maximum of 50 comments in each bucket._
+
+```typescript
+{
+  _id: 1,
+  title: "An awesome blog",
+  url: "http://awesomeblog.com",
+  text: "This is an awesome blog we have just started"
+}
+```
+
+```typescript
+{
+  blog_entry_id: 1,
+  page: 1,
+  count: 50,
+  comments: [{
+    name: "Peter Critic",
+    created_on: ISODate("2014-01-01T10:01:22Z"),
+    comment: "Awesome blog post"
+  }, ...]
+}
+{
+  blog_entry_id: 1,
+  page: 2,
+  count: 1,
+  comments: [{
+    name: "John Page",
+    created_on: ISODate("2014-01-01T11:01:22Z"),
+    comment: "Not so awesome blog"
+  }]
 }
 ```
