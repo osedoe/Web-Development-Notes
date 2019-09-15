@@ -167,7 +167,7 @@ Mongoose
 
 - **Step 2:** Define Schema
 
-From the docs:  
+From the docs:
 >_Everything in Mongoose starts with a Schema. Each schema maps to a MongoDB collection and defines the shape of the documents within that collection._
 
 ```typescript
@@ -202,11 +202,11 @@ From the docs:
 const whateverItIs = Mongoose.model<InterfaceOfSchema>('<CollectionName>', schemaName);
 ```
 
->The first argument is the singular name of the collection your model is for.  
->** Mongoose automatically looks for the plural, lowercased version of your model name.  
+>The first argument is the singular name of the collection your model is for.
+>** Mongoose automatically looks for the plural, lowercased version of your model name.
 >** Thus, for the example above, the model Tank is for the tanks collection in the database.
 
-Things go like:  
+Things go like:
 `database > collection > document`
 
 Then, to add a document through the code:
@@ -488,12 +488,13 @@ const createMovie = async () => {
 
 [Schema basics](http://learnmongodbthehardway.com/schema/schemabasics/)
 
-There's three approachs to link documents in MongoDB:
+Trade off between **query performance** vs **consistency**.
+There's three approaches to link documents in MongoDB:
 
 - **Normalization**: Using references (Best for consistency)
 - **Denormalization**: Using embedded documents (Best for performance)
 - **Hybrid**: Using a mix of the two, embedding only the properties we want.
-  
+
 Depending on the type of relationship we will use one or another depending of what we want to achieve and our requirements.
 
 ### One-to-One (1:1)
@@ -622,7 +623,7 @@ We find three problems with this approach here.
 }
 ```
 
-> _When you have the possibility of splitting up your documents into discreet batches, it makes sense to consider bucketing to speed up document retrieval._  
+> _When you have the possibility of splitting up your documents into discreet batches, it makes sense to consider bucketing to speed up document retrieval._
 > _Typical cases where bucketing is appropriate are ones such as bucketing data by hours, days or number of entries on a page (like comments pagination)._
 
 ### Many-to-Many (N:M)
