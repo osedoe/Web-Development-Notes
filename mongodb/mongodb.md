@@ -489,6 +489,7 @@ const createMovie = async () => {
 [Schema basics](http://learnmongodbthehardway.com/schema/schemabasics/)
 
 Trade off between **query performance** vs **consistency**.
+
 There's three approaches to link documents in MongoDB:
 
 - **Normalization**: Using references (Best for consistency)
