@@ -1,6 +1,6 @@
-# Lists
+# 4. Lists
 
-## List Data Type
+## 4.1. List Data Type
 
 ```python
 names = ['Em', 'Tim', 'Jim']
@@ -14,7 +14,7 @@ bidimensional_array[1]      # ['Liverpool', 'Bristol']
 bidimensional_array[0][1]       # 'Madrid'
 ```
 
-## *Slice()* function
+## 4.2. *Slice()* function
 
 To get various values from a list we use `slice`.
 
@@ -28,7 +28,7 @@ list_of_things[1:]     # ['chair', 'desk']
 list_of_things[:]     # ['draw', 'chair', 'desk']
 ```
 
-### *Len()* function
+### 4.3. *Len()* function
 
 The `len()` function returns the length or amount of values that there's in a list
 
@@ -38,7 +38,7 @@ list_of_things = ['draw', 'chair', 'desk']
 len(list_of_things)     # 3
 ```
 
-## List concatenation and list replication
+## 4.4 List concatenation and list replication
 
 The `+` operator can be used to concatenate lists as we would do with strings. And the `*` to replicate them
 
@@ -51,14 +51,14 @@ number_list + letters_list      # [1, 2, 3, 'a', 'b', 'c']
 numbers_list * 3        # [1, 2, 3, 1, 2, 3, 1, 2, 3] 
 ```
 
-## Using *for loops* in lists
+## 4.5. Using *for loops* in lists
 
 ```python
 for i in range(len(random_list):
     print('Index: ' +  str(i) + ' is ' + str(random_list[i]))
 ```
 
-## Using *in* and *not* with lists
+## 4.6. Using *in* and *not* with lists
 
 We can use these keywords to check whether a value is or not in a list
 
@@ -69,14 +69,14 @@ numbers = [1, 2, 3]
 10 not in number        # True
 ```
 
-## Multiple assignment / Tuple unpacking
+## 4.7. Multiple assignment / Tuple unpacking
 
 ```python
 stuff_list = ['Spain', 'Vauxhall', 'cactus']
 country, car, plant = stuff
 ```
 
-## Augmented assignment operators
+## 4.8. Augmented assignment operators
 
 These two are equivalent:
 
@@ -96,7 +96,7 @@ age += 1
 
 > The first two assignments can do string concatenation and string replication respectively
 
-## List methods
+## 4.9. List methods
 
 ### Remove values
 
@@ -204,7 +204,7 @@ This method will reverse the order of the items in a list, modifying the origina
 things.reverse()
 ```
 
-## Line continuation character
+## 4.10. Line continuation character
 
 We use the \ character to tell the interpreter that the instruction we are on continues on the next line
 

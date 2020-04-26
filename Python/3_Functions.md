@@ -1,4 +1,4 @@
-# Functions
+# 3. Functions
 
 ```python
 def cheer(name):
@@ -16,7 +16,7 @@ print(cheer('Ose'))
 displaySum(3, 4)
 ```
 
-## None Value
+## 3.1. None Value
 
 ```python
 None
@@ -26,7 +26,7 @@ None
 - Must be written with capital N. 
 - When a function lacks of a `return` statement, it will return `None`
 
-## Keyword arguments
+## 3.2. Keyword arguments
 
 The arguments of a function tend to be defined by the order they appear, their position.
 
@@ -45,7 +45,7 @@ print('World') # HelloWorld
 print('Adam', 'Lily', 'Laura', sep=', ') # Adam, Lily, Laura 
 ```
 
-## Global statement
+## 3.3. Global statement
 
 If we need to modify a global variable from within a function, we will use the global statement.
 
@@ -62,7 +62,7 @@ list = [5, 7, 9]
 
 > Bear in mind that using this will make the function non-pure 
 
-## Exception Handling
+## 3.4. Exception Handling
 
 The way to handle errors in Python is through `try` and `except` statements.
 

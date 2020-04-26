@@ -12,7 +12,7 @@ Various useful functions:
 
 - input(): 🤔 
 
-# Math operators
+## 2.1. Math operators
 
 | Operator | Operation          | Example | Evaluates to... |
 |----------|--------------------|---------|-----------------|
@@ -24,13 +24,13 @@ Various useful functions:
 | -        | Subtraction        | 5 - 2   | 3               |
 | +        | Addition           | 2 + 2   | 4               |
 
-# Variables
+## 2.2. Variables
 
 Variables in Python are mutable and are declared as:
 
 `car = 4`
 
-## Strings
+## 2.3. Strings
 
 -  String concatenation and replication
 
@@ -46,7 +46,7 @@ Also, we can use other operators to do further operations, like:
 'Hello' * 3 # 'HelloHelloHello'
 ``` 
 
-## Boolean values
+## 2.4. Boolean values
 
 Boolean values are named with a capital T or F, with the rest of the world in lowecase.
 
@@ -55,7 +55,7 @@ bool = True
 bool2 = False
 ```
 
-## Comparison or relational operators
+## 2.5. Comparison or relational operators
 
 | Operator | Meaning                  |
 |----------|--------------------------|
@@ -66,13 +66,13 @@ bool2 = False
 | <=       | Less than or equal to    |
 | >=       | Greater than or equal to | 
 
-## Boolean operators
+## 2.6. Boolean operators
 
-- and
-- or
-- not
+- `and`
+- `or`
+- `not`
 
-## Blocks
+## 2.7. Blocks
 
 In Python, we group code in blocks through indentation.
 
@@ -82,7 +82,7 @@ In Python, we group code in blocks through indentation.
 2) Blocks can contain other blocks
 3) Block end when the indentation decreases to zero or to a containing block's indentation
    
-## Conditional statements
+## 2.8. Conditional statements
 
 - `If` statement:
 
@@ -111,7 +111,7 @@ elif job = 'designer':
 
 > Python doesn't have a staight way of doing switch statements, so we can stack `elifs`... for now
 
-## While loop
+## 2.9. While loop
 
 ```python
 slot = 0
@@ -126,7 +126,7 @@ while slot < 10:
 
 Like `break` statements, but it tells the execution to jump back to the start of the loop and reevaluate the loop condition
 
-## For loop
+## 2.10. For loop
 
 ```python
 for i in range(5):
@@ -143,7 +143,7 @@ This function can have up to three parameters:
 - The second one is the end range, being exclusive
 - The third parameter is the step, this is, the amount that is increased on each iteration
 
-## Importing modules
+## 2.11. Importing modules
 
 ```python
 import random
@@ -164,6 +164,6 @@ This is an alternative way of importing modules
 from random import *
 ```
 
-## Sys.exit() function
+## 2.12. *Sys.exit()* function
 
 We can always end our program early with the `sys.exit()` function, just remember to import the sys module
