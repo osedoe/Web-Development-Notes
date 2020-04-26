@@ -212,3 +212,48 @@ We use the \ character to tell the interpreter that the instruction we are on co
 print('This line starts here ' + \
     'and finishes here')
 ```
+
+## 4.11. *Sequence* Data Types
+
+In Python, sequence data types include lists, strings, range objects returned by `range()` and tuples.
+
+Hence, many of the things that we can do with lists can be applied to any type of sequence, like: 
+- Indexing
+- Slicing
+- Working with `for loops`
+- Working with `len()`
+- Working with `in` and `not`  
+
+There's a difference, though, lists are *mutable* and strings are *immutable*.  
+The right way to manipulate a string is through slicing and concatenation to build a new string.
+
+### The *Tuple* Data Type
+
+Tuples are similar to list but for two things:
+- Tuples are typed with **parentheses**: `(` and `)`, instead of square brackets: `[` and `]`
+- Tuples are **immutable**
+
+If you want just one value in your tuple, you can add a comma.
+
+```python
+type(('cats',))
+# <class 'tuple'>
+type(('dogs'))
+# <class 'str'> 
+```
+
+### Converting Types with the *list()* and *tuple()* functions
+
+These functions will return the list and tuple versions of the values passed
+
+```python
+numbers_list = [1, 2, 3]
+tuple(numbers_list)     # (1, 2, 3)
+```
+
+### The *copy* module
+
+Sometimes we don't want Python to behave the way it does when working with lists. In these cases, we can use `copy()` and `deepcopy()` functions that come from the **copy** module
+
+- `Copy()` can be used to make a duplicate copy of a mutable value, not just a copy of a reference
+- `Deepcopy()` can be used when we need to copy a value that contains a list as well
