@@ -14,7 +14,7 @@ bidimensional_array[1]      # ['Liverpool', 'Bristol']
 bidimensional_array[0][1]       # 'Madrid'
 ```
 
-## `Slice` function
+## *Slice()* function
 
 To get various values from a list we use `slice`.
 
@@ -28,7 +28,7 @@ list_of_things[1:]     # ['chair', 'desk']
 list_of_things[:]     # ['draw', 'chair', 'desk']
 ```
 
-### `Len` function
+### *Len()* function
 
 The `len()` function returns the length or amount of values that there's in a list
 
@@ -51,14 +51,14 @@ number_list + letters_list      # [1, 2, 3, 'a', 'b', 'c']
 numbers_list * 3        # [1, 2, 3, 1, 2, 3, 1, 2, 3] 
 ```
 
-## Using `for loops` in lists
+## Using *for loops* in lists
 
 ```python
 for i in range(len(random_list):
     print('Index: ' +  str(i) + ' is ' + str(random_list[i]))
 ```
 
-## Using `in` and `not` with lists
+## Using *in* and *not* with lists
 
 We can use these keywords to check whether a value is or not in a list
 
@@ -120,7 +120,7 @@ random_list     # [5, 'Ana']
   
 > We will use `remove` when we know the item itself. 
 
-### `Enumerate` function with lists
+### *Enumerate()* function with lists
 
 Instead of using `range(len(stuff_list))` in a `for loop`, we could use the `enumerate()` function. 
 
@@ -142,7 +142,7 @@ This module has a few functions that accept lists for arguments.
 - `random.choice(<list>)`. Return a random item from a list
 - `random.shuffle(<list>)`.  Reorder the items in a list
 
-### `Index` method in a list
+### *Index()* method in a list
 
 ```python
 cars = ['Vauxhall', 'Ford', 'Renaul']
@@ -150,7 +150,7 @@ cars.index('Ford')      # 1
 cars.index('Fiat')      # Throws an error
 ```
 
-### `Append` & `insert` methods in a list
+### *Append()* & *insert()* methods in a list
 
 `Append(<value>)` adds the argument to the end of a list
 
@@ -170,7 +170,7 @@ numbers     # [1, 'deal_breaker', 2, 3]
 
 > Remember that these methods don't return the value, but modify the original list
 
-### `Sort` method 
+### Sort() method 
 
 This method will sort lists of strings or numbers.
 
@@ -196,7 +196,7 @@ This method uses 'ASCIIbetical order', uppercase letters come before lowercase. 
 things.sort(key=str.lower)
 ```
 
-### `Reverse` method
+### *Reverse()* method
 
 This method will reverse the order of the items in a list, modifying the original list since it returns None
 
