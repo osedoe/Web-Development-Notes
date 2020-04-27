@@ -130,7 +130,7 @@ On each iteration of a loop, this function will return two values:
 
 ```python
 animals = ['squirrel', 'magpie', 'fox]
-for index, item in enumare(animals):
+for index, item in enumerate(animals):
     print('Index: ' + str(index))
     print('Item: ' + item)
 ```
