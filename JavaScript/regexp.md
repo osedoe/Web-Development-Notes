@@ -285,5 +285,6 @@ You can also access capture groups in the replacement string with dollar signs `
 const cities = 'Bristol Liverpool';
 const matchTwoWordsWithAWhiteSpace = /(\w+)\s(\w+)/;
 const newStringWithWordsInverted = '$2 $1';
-cities.replace(matchTwoWordsWithAWhiteSpace, newStringWithWordsInverted); //'Liverpool Bristol'
+cities.replace(matchTwoWordsWithAWhiteSpace, newStringWithWordsInverted);
+// 'Liverpool Bristol'
 ```
