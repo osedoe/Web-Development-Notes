@@ -1,250 +1,289 @@
+---
+title: "Regular Expressions in JavaScript"   
+spoiler: "RegExp Cheatsheet"  
+tags: ["javascript", "notes", "regexp"]
+slug: "regexp-js"
+contentType: "notes"
+published: true
+---
+
 # Regular Expressions
 
 ## Introduction
 
 Regular Expressions are used to match string patterns.
 
-They have proved being really useful, mostly when I'm going throught competitive algorithm challenges, but I always end up forgetting them.
+They have proved being really useful to me, mostly when I'm going through competitive algorithm challenges, but I always
+end up forgetting them. So I made a quick reference for it.
 
 ---
 
 ## Basics
 
-### [/pattern/].test([String])
+### `[/pattern/flags].test([string])`
 
-In JavaScript, we use the `/pattern/` syntax. And we can use the **.test()** method, that returns true or false, to check for those patterns inside a string.
+In JavaScript, we use the `/pattern/` syntax. We can use the **.test()** method, that returns `true` or `false`, to
+check for those patterns inside a string.
 
 ```javascript
-const str = "Hello World";
+const str = 'Hello World';
 const regex = /Hello/;
-regex.test(str); // True
+regex.test(str); // true
 ```
 
-We can also use the **|** or **OR** operator to search for multiple patterns. We can even concatenate it like `/Human|Cat|Dog/`.
+We use the `|` or `OR` operators to search for multiple patterns. We can even concatenate them like `/Human|Cat|Dog/`.
 
-### Flag "i". Ignoring
+### `i` flag: Ignore case
 
 To ignore the difference between uppercase and lowercase letters, we can use the flag `i`, as`/RegExp/i`.
 
-### Method [String].match(/pattern/)
+### Method `[string].match(/pattern/)`
 
-To extract matches from the RegExp, will use `.match()` on a String passing the RegExp as a parameter.
+To **extract matches from the RegExp**, will use `.match()` on a string passing the RegExp as a parameter.
 
 ```javascript
-const str = "Abstract Chill";
+const str = 'Abstract Chill';
 str.match(/chill/i);
-// Returns ["Chill"]
+// Returns ['Chill']
 ```
 
-### Flag "g"
+### `g` flag: Find multiple matches
 
-To make that search/extraction of a pattern be more than once or the first coincidence, we will add the `g` flag, like `/RegExp/g`
+To search or extract a pattern more than just the first occurrence, we will add the `g` flag, like `/RegExp/g`
 
 ### Match characters inside a RegExp with `.`,`[]` and `-`
 
--A period inside the RegExp will match any character `/hu./`.
+- `.` A period inside the RegExp will match any character `/hu./`.
 
--The use of square brackets `[]` let us match any letter inside them as one option for a position or slot in the pattern.
+- `[123]` The use of square brackets let us match any letter inside them as one option for a position or slot in the
+  pattern.
+
+- `-` The _hyphen_ is used to define a range of characters to match, like `[a-e]` or `[0-5]`.
 
 ```javascript
-const pattern = /b[aeiou]g/;
-// Will match "bag", "beg", "big", "bog", "bug"
+const pattern1 = /b[aeiou]g/;
+// Will match 'bag', 'beg', 'big', 'bog', 'bug'
+const pattern1 = /copy[1-9]/;
+// Will match 'copy1', 'copy2', ..., 'copy9'
+
 ```
 
--Using the _hyphen_ "-": It's used to define a range of characters to match -looking like `[a-e]` or `[0-5]`.
+### `[^...]` Negate characters (invert rule)
 
-### Negated characters with a caret ^ inside a character set -> ^
-
-When we want to match characters that are NOT the ones specifies, we will use the caret [^] symbol.
+When we want to match characters that are NOT the ones specified in the pattern, we will use the caret symbol inside
+brackets followed by the group of characters.
 
 ```javascript
 const patterm = /[^aeiou]/;
-// Will match all characters that are not vowels
+// Will match all characters that are NOT vowels
 ```
 
-### Match characters that occur **one** or more times -> +
+### `+` Matches a character that occurs _one or more times_
 
-In this case, we will use the [+] symbol for matching characters that appear one or more times.
-If the occurence happens together, it will count as one match.
+In this case, we will use the [+] sign to match characters that appear one or more times. If the occurrence happens
+together, it will count as one match.
 
 ```javascript
 const pattern = /a+/g;
-const str1 = "abc";
-str1.match(pattern); // Returns ["a"]
-const str2 = "aabc";
-str2.match(pattern); // Returns ["aa"]
+const str1 = 'abc';
+str1.match(pattern); // Returns ['a']
+const str2 = 'aabc';
+str2.match(pattern); // Returns ['aa']
 // Where both returns are a single match
 ```
 
 ```javascript
 const pattern = /a+/g;
-const str1 = "abab";
-str1.match(pattern); // Returns ["a", "a"] (two matches)
+const str1 = 'abab';
+str1.match(pattern); // Returns ['a', 'a'] (two matches)
 ```
 
-### Match characters that occur **zero** or more times -> \*
+### `*` Match characters that occur _zero or more times_ with an asterisk
 
-Same as the previous one, but with with 0 or more matches. We will use an asterisk [*] symbol.
+Same as the previous one, but with 0 or more matches.
 
 ```javascript
 const pattern = /go*/;
-const soccerWord = "gooooooooal!";
-const gPhrase = "gut feeling";
-const oPhrase = "over the moon";
-soccerWord.match(goRegex); // Returns ["goooooooo"]
-gPhrase.match(goRegex); // Returns ["g"]
-oPhrase.match(goRegex); //
+const soccerWord = 'gooooooooal!';
+const sentence1 = 'gut feeling';
+const sentence2 = 'over the moon';
+soccerWord.match(pattern); // ['goooooooo']
+sentence1.match(pattern); // ['g']
+sentence2.match(pattern); //
 ```
 
-### Greedy and lazy match -> (?)
+### Greedy and Lazy matching
 
-Greedy match finds the longest possible bit of a string that fits the pattern and returns that.
-Lazy match, on the other hand, finds the smallest possible part of the string.
+- **Greedy** match: Finds _the longest possible_ bit of a string that fits the pattern and returns that.
+- `?` **Lazy** match: Finds _the smallest possible_ part of the string.
 
-RegEx are _greedy_ by default, but if we wanted to do a _lazy_ matching, we will use the interrogation [?] mark.
+RegEx are _greedy_ by default.  
+If we wanted to do a _lazy_ matching, we will use the interrogation [?] mark.
 
 ```javascript
-const pattern1 = /t[a-z]*i/;
-const pattern2 = /t[a-z]*?i/;
-const str = "titanic";
-str.match(pattern1); // Returns ["titani"]
-str.match(pattern2); // Returns ["ti"]
+const testString = 'titanic';
+
+const greedyPattern = /t[a-z]*i/;
+testString.match(greedyPattern); // ['titani']
+
+const lazyPattern = /t[a-z]*?i/;
+testString.match(lazyPattern); // ['ti']
 ```
 
-### Match beginning string patterns with a caret ^
+### `^...` Match beginning string patterns
 
-If we put the caret symbol outside a character set (outside the square brackets []), we will search for patterns at the beginning of a string.
+If we put the caret symbol outside a character set (outside the square brackets []), we will **search for patterns at
+the beginning of a string**.
 
 ```javascript
-const str = "Ricky Martin";
-const pattern = /^Ricky/;
-str.test(pattern); // True
+const testString = 'Ricky Martin';
+const firstName = /^Ricky/; // As 'it begins with Ricky'
+testString.test(firstName); // true
 ```
 
-### Match ending string patterns with a dollar sign $
+### `...$` Match ending string patterns with a dollar sign $
 
-Opposite to the caret, we can use the dollar sign in a similar way to match the end of a string.
+Opposite to the caret, we can use the dollar sign similarly to match the end of a string.
 
 ```javascript
-const str = "Viva la vida loca";
-const pattern = /
+const testString = 'Viva la vida loca';
+const endingInLoca = /loca$/; // As 'it finished with 'loca''
+testString.test(endingInLoca) // true
 ```
 
-### Match all letters and numbers \w
+### `\w` Match _all letters and numbers_
 
-There's a character class that can match all letters of the alphabet and numbers: `\w` being equivalent to `[A-Za-z0-9]`. But including the underscore `_` too.
+There's a character class that can match all letters of the alphabet and numbers: `\w` being equivalent to `[A-Za-z0-9]`
+, plus the underscore `_`.
 
 ```javascript
-let longHand = /[A-Za-z0-9_]+/;
-let shortHand = /\w+/;
+const tediousWay = /[A-Za-z0-9_]+/;
+const easierWay = /\w+/;
 ```
 
-### Match everything but letters and numbers -> `\w` or `\W`
+### Match _everything BUT letters and numbers_ (CAPITAL === NEGATIVE)
 
 If we want to find the opposite of alphanumerics, we use `\W` (note the capital W is used as the opposite).
 
-So, `\W` is the same as `[^A-Za-z0-9_]`.
+`\W` is the same as `[^A-Za-z0-9_]`.
 
-### Match all numbers -> `\d`
+### `\d` Match _all numbers_
 
-The shortcut to look for digit characters is `\d`, being eqaul to `[0-9].`
+The shortcut to look for DIGIT CHARACTERS is `\d`, being equal to `[0-9].`
 
-### Match all non-numbers -> `\D`
+### `\D` Match _all non-numbers_
 
 The shortcut this time, is obviously `\D`, being equivalent to `[^0-9]`.
 
-### Match whitespace -> `\s`
+### `\s` Match _whitespace_
 
-We can search for whitespace using `\s`. Matching also return, tab, form feed, and new line characters.
+We can search for whitespace using `\s`. It will also match _return_, _tab_, _form feed_, and _new line_ characters.
 
-### Match non-whitespace characters -> `\S`
+### `\S` Match _non-whitespace characters_
 
-We use the the shortcut `\S`.
+It will match everything that is not whitespace.
 
-### Specify Upper and Lower number of matches
+### `{n,n}` Specify _upper and lower times that a match can occur_
 
-We know we can use the plus sign `+` to look for one or more characters.  
-And the asterisk `*` to look for zero or more characters.
+We know we can use the plus sign `+` to look for _one or more characters_.  
+We also know that the asterisk `*` is used to look for _zero or more characters_.
 
-But when we want to specify the quantity we will use curly brackets `{` and `}`. defining the minimum and maximum times we want it to appear in the pattern.
+When we want to specify the quantity we will use curly brackets `{` and `}`. defining the minimum and maximum times we
+want it to appear in the pattern.
 
-For example, to match only the letter `a` appearing between 3 and 5 times in the string **"ah"**, the regex will look like `/a{3,5}h/` .
+For example, to match only the letter `a` appearing between 3 and 5 times in a string, the regex will look
+like `/a{3,5}h/` .
 
-### Specify only the Lower number of matches
+### `{n,}` Specify _only the lower number_ of matches
 
-If we want to specify just the lower number of matches, we will just omit the the second parameter like `/ha{3,}h/`, that will match the string "hah" with the letter **a** appearing at least 3 times.
+If we want to specify just the lower number of matches, we will just omit the second parameter like `/ha{3,}h/`, that
+will match the string with the letter **a** appearing at least 3 times.
 
-### Specify the exact number of matches
+### `{n}` Specify the _exact number_ of matches
 
 We can specify the number of matches we want if we just put one number inside the curly brackets, like `/ha{3}h/`.
 
-### Check for all or none
+### `..?` Check for _zero or one_ (optional)
 
-We can check the possible existence of an element with a question mark `?`. This checks for azero or one of the preceding element, or being said element _optional_.
+We can check the possible existence of an element with a question mark `?`. This checks for a zero or one of the
+preceding element.
 
 ```javascript
-const american = "color";
-const british = "colour";
+const american = 'color';
+const british = 'colour';
 const pattern = /colou?r/;
 pattern.test(american); // true
 pattern.test(british); // true
 ```
 
-### Positive and negative lookahead
+### Positive and negative lookahead _(check two or more patterns in one string)_
 
-**Lookaheads** are patterns that tell JavaScript to look ahead in your string to check for patterns further along. This can be useful when you want to search for multiple patterns over the same string.
+**Lookaheads** are patterns that _look ahead_ in your string to check for patterns further along. This can be useful
+when _you want to search for multiple patterns over the same string_.
 
-There's two types:
+There are two types:
 
--**Positive:** It will look to make sure the element in the search pattern is there, but won't actually match it. It's used as `(?=...)` where the `...` is the required part that is not matched.
--**Negative:** It will look to make sure the element in the search pattern is not there. A negative lookahead is used as `(?!...)` where `...` is the pattern that you do not want to be there. The rest of the pattern is returned if the negative part is not present.
+- **Positive:** It will look to make sure the element in the search pattern is there, but won't actually match it. It's
+  used as `(?=...)` where the `...` is the required part that is not matched.
+- **Negative:** It will look to make sure the element in the search pattern is not there. A negative lookahead works
+  as `(?!...)` where `...` is the pattern that you do not want to be there. The rest of the pattern is returned if the
+  negative part is not present.
 
 ```javascript
 // Positive lookahead
-let quit = "qu";
-let quRegex = /q(?=u)/;
-quit.match(quRegex); // returns ["q"]
+const quit = 'qu';
+const quRegex = /q(?=u)/;
+quit.match(quRegex); // ['q']
 
-//Negative lookahead
-let noquit = "qt";
-let qRegex = /q(?!u)/;
-noquit.match(qRegex); // returns ["q"]
+// Negative lookahead
+const noquit = 'qt';
+const qRegex = /q(?!u)/;
+noquit.match(qRegex); // ['q']
 ```
 
-A more practical use of the **lookaheads** is to check two or more patterns in one string.
+A more practical use of the **lookaheads** is to check two or more patterns in one string, like `/(?=GROUP1)(?=GROUP2)/`
 
 ```javascript
 // This will look for between 3 and 6 characters and at least one number
-let password = "abc123";
+let password = 'abc123';
 let checkPass = /(?=\w{3,6})(?=\D*\d)/;
 checkPass.test(password); // returns true
 ```
 
-### Reuse patterns using capture groups
+### `(...)` _Reuse patterns_ using capture groups
 
-There's going to be patterns that occur multiple times in a string. Instead of manually repeat a regex, we can search for repeat substrings using **capture groups**.
+There's going to be patterns that occur multiple times in a string. Instead of manually repeat a regex, we can search
+for repeated substrings using **capture groups**.
 
-Parentheses `(` and `)` are used to find repeat substrings, putting the regex of the pattern that is going to repeat in between those.
+Parentheses `(` and `)` are used to find repeated substrings, putting the regex of the pattern that is going to repeat
+in between those.
 
-To specify where that repeat string will appear, we will use backslash `\` and a `number`. This number strats at 1 and increases with each additional capture group you use.
+To specify where that repeat string will appear, we will use backslash `\` and a `number`. This number starts at 1 and
+increases with each additional capture group you use.
 
 ```javascript
 // Match any word that occurs twice separated by a space
-let repeatStr = "regex regex";
-let repeatRegex = /(\w+)\s\1/;
-repeatRegex.test(repeatStr); // returns true
-repeatStr.match(repeatRegex); // returns ["regex regex", "regex"]
+let repeatStr = 'regex regex';
+let repeatRegex = /(\w+)\s\1/; // Here (\w+) is the first group,
+                               // then we match whitespace with \s 
+                               // and reuse the first group with \1
+repeatRegex.test(repeatStr); // true
+repeatStr.match(repeatRegex); // ['regex regex', 'regex']
 ```
 
-Using **.match()** will return an array with the string it matches, along with its capture group.
+As we can see in the last line above, using **.match()** will return an array with the _string it matches_, along with
+its _capture group_.
 
-### Search and replace
+### Search and replace
 
-We can use `[String].replace([param1], [param2])` to look for a pattern and replace it.
-**Param1** is the regex you want to search for, and **param2** the string to replace or a function.
+We can use `[string1].replace([pattern1], [string2])` to look for a pattern and replace it.
+**pattern1** is the regex you want to search for, and **string2** the string to replace or a function.
 
-You can also access capture groups in the replacement string with dollar signs `$`, like:
+You can also access capture groups in the replacement string with dollar signs `$n`, like:
 
 ```javascript
-"Code Camp".replace(/(\w+)\s(\w+)/, "$2 $1"); // returns "Camp Code"
+const cities = 'Bristol Liverpool';
+const matchTwoWordsWithAWhiteSpace = /(\w+)\s(\w+)/;
+const newStringWithWordsInverted = '$2 $1';
+cities.replace(matchTwoWordsWithAWhiteSpace, newStringWithWordsInverted); //'Liverpool Bristol'
 ```
