@@ -146,7 +146,8 @@ let { species, sound } = animal;
 // It'd be similar to:
 // let species = animal.species;
 // let sound = animal.sound;
-// With the difference that it proves itself more useful when it can take optional default parameters
+// With the difference that it proves itself more useful
+// when it can take optional default parameters
 
 console.log(`The ${species} makes ${sound}!`);
 ```
