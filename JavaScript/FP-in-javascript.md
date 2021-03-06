@@ -1,14 +1,24 @@
+---
+title: "Functional programming 101"   
+spoiler: "Review of some basic concepts of Functional Programming (FP)"  
+tags: ["javascript", "notes", "functional programming"]
+slug: "ES6-new-features"
+contentType: "notes"
+published: true
+---
+
 # Functional Programming Principles
 
-Functional programming has three main goals:
+Functional programming postulate the following goals when writing code:
 
-- Isolated functions
-- Pure functions (same input returns same output)
-- Functions with limited side effects
+Functions mus be:
+ - Isolated
+ - Pure (same input returns same output)
+ - Have limited side effects
 
 ## Avoid mutation
 
-One of the principles of functional programming is inmutability.
+One of the principles of functional programming is immutability.
 
 ```javascript
 const fixedValue = 4;
