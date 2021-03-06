@@ -180,5 +180,3 @@ describe('Mi test group', () => {
     });
 });
 ```
-
-(NOT FINISHED)
