@@ -181,4 +181,4 @@ describe('Mi test group', () => {
 });
 ```
 
-(NOT FINISHED...)
+(NOT FINISHED)
