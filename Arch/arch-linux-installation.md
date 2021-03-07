@@ -1,7 +1,7 @@
 ---
 title: "Arch Linux installation"   
 spoiler: "Steps to install Arch Linux"  
-tags: ["Arch"]
+tags: ["arch linux"]
 slug: "installing-arch-linux"
 contentType: "notes"
 published: true
