@@ -1,19 +1,28 @@
+---
+title: "Arch Linux installation"   
+spoiler: "Steps to install Arch Linux"  
+tags: ["Arch"]
+slug: "installing-arch-linux"
+contentType: "notes"
+published: true
+---
+
 # Arch linux custom installation
 
 ## Introduction
 
-**Disclaimer:** This does not pretend to be by any means the perfect arch installation guide, but what it has worked for me after trying hard and failing even harder.
+**Disclaimer:** This does not pretend to be by any means the perfect arch installation guide, but what it has worked for
+me after trying hard and failing even harder.
 
 We will be installing the Arch Linux OS, GRUB, and KDE.
 
-This guide is heavily based in [Henri's arch installation](https://paste.ubuntu.com/23956628/).
+This guide is heavily inspired by [Henri's arch installation](https://paste.ubuntu.com/23956628/).
 
-## Guide
+## Guide
 
-### 1. Hello, I'm looking for the Nyan Cat | Internet conf
+### 1. Internet configuration
 
-As obvious as it may sound, first we need to check that we have a working internet connection.
-Hence, we'll do:
+As obvious as it may sound, first we need to check that we have a working internet connection. Hence, we'll do:
 
 ```terminal
 # To enable the network interface
@@ -22,47 +31,32 @@ dhcpcd
 ping -c 4 8.8.8.8
 ```
 
-I insist, *we HAVE to do:**:
-
-```zsh
-dhcpcd
-ping -c 4 8.8.8.8
-```
-
-I don't want to see you crying later on when shit gets set on fire.
-
-#### Extra resource that should not be needed
-
-_If we need to stop the dhcpcd service, we will do:_
+If we need to stop the _dhcpcd_ service, we will do:
 
 ```terminal
 systemctl stop dhcpcd@<TAB>
 ```
 
-And see the Network configuration [here](https://wiki.archlinux.org/index.php/Network_configuration#Device_driver)
+The ArchLinux docs for reference are [here](https://wiki.archlinux.org/index.php/Network_configuration#Device_driver).
 
-Ok, cool.
-Now we should start partitioning the disk.
-To check out partitions we do it with:
+### 2. Partitioning Disk
+
+Now we should start partitioning the disk. To check out partitions we do it with:
 
 ```zsh
 lsblk
 ```
 
-And to **start partitioning** we will do:
+To **start partitioning** we will do:
 
 ```zsh
 cfdisk /dev/sda
 ```
 
-and face our first boss.
+Before jumping here, we should know how big each partition should be.
 
-### 2. Slice and dice that MF | Partitioning Disk
-
-Before jumping here, I want you to think and rething your strategy. This is important.
-
-I will always recommend 1G for the boot partition, more than enough.
-As for RAM, follow this rules (not mine)...
+What has worked for me is, 1 GB for the boot partition -should be more than enough. As for RAM, follow this rules (not
+mine)...
 
 | Amount of RAM in the system | Recommended swap space     | Recommended swap space if allowing for hibernation  |
 |-----------------------------|----------------------------|-----------------------------------------------------|
@@ -79,21 +73,26 @@ Now, the schema should end up something like this
 | sda2     | 1GB (2G to be safe) | swap        |
 | sda3     | remaining space     | /home       |
 
-We will start facing the **Partition Dragon** with the `cfdisk /dev/sda` command utility, if you haven't done it already.
+We will start facing the **Partition Dragon** with the `cfdisk /dev/sda` command utility, if you haven't done it
+already.
 
 Now, let's see our options:
 
-We will choose _dos_ in the prompt, or _gpt_ if our disk has more than 2T.
+We will choose `dos` in the prompt, or `gpt` if our disk has more than 2T.
 
-- First we will manage `/dev/sda1/`: In the utility, we will go to _FREE SPACE_ >_NEW_ and make it _1G_ big, _primary_, and _bootable_. We will also make sure the type says Linux on the screen.
-- Now we will go for our SWAP partition `/dev/sda2/`: We will create this partition going to _NEW_ again, giving it _2G_, _primary_, and in _Type_ we will select _Linux swap / Solaris_.
+- First we will manage `/dev/sda1/`: In the utility, we will go to _FREE SPACE_ >_NEW_ and make it _1 GB_ big, _primary_
+  , and _bootable_. We will also make sure the type says Linux on the screen.
+- Now we will go for our SWAP partition `/dev/sda2/`: We will create this partition going to _NEW_ again, giving it _2
+  GB_
+  , _primary_, and in _Type_ we will select _Linux swap / Solaris_.
 - Lastly, for the `/dev/sda2`: We will select the remaining size, _PRIMARY_, _WRITE_ and _yes_.
 
-Now we can quit the cfdisk utility.
+Now we can quit the `cfdisk` utility.
 
-### 3. Doing the homework | Formatting the partitions
+### 3. Doing the homework | Formatting the partitions
 
-We have faced our first big challenge. Go grab a beer, you deserve it. I used to be scared of partitioning my disk... well I'm still are. So, yes, be proud of yourself.
+We have faced our first big challenge. Go grab a beer, you deserve it. I used to be scared of partitioning my disk...
+well I still am. So, yes, be proud of yourself.
 
 As it follows:
 
@@ -121,7 +120,8 @@ mount /dev/sda3 /mnt
 
 #### Method A
 
-We are going to sync our packages through [Refactor](https://wiki.archlinux.org/index.php/Reflector) with the following commands:
+We are going to sync our packages through [Reflector](https://wiki.archlinux.org/index.php/Reflector) with the following
+commands:
 
 ```zsh
 # Sync and refresh the master package database from the server defined in pacman.conf
@@ -133,7 +133,8 @@ reflector --verbose -l 5 --sort rate --save /etc/pacman.d/mirrorlist
 
 #### Method B
 
-Another alternative, following the [ArchLinux wiki](https://wiki.archlinux.org/index.php/Installation_guide#Install_the_base_packages), says:
+Another alternative, following
+the [ArchLinux wiki](https://wiki.archlinux.org/index.php/Installation_guide#Install_the_base_packages), says:
 
 > The Packages to be installed must be downloaded from mirror servers, which are defined in /etc/pacman.d/mirrorlist. On the live system, all mirrors are enabled, and sorted by their synchronization status and speed at the time the installation image was created.
 >
@@ -147,7 +148,11 @@ This is the heart of the installation. Here we will choose which packages are we
 
 ```zsh
 # My recommendation
-# In order: base system (base and base-devel), grub-bios (boot helper GRUB), and well, a network manager
+# In order:
+# 1. base system (base and base-devel),
+# 2. grub-bios (boot helper GRUB), 
+# 3. And well, a network manager
+
 pacstrap -i /mnt base base-devel grub-bios networkmanager
 ```
 
@@ -160,9 +165,10 @@ genfstab -U -p  /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
 ```
 
-### 6. Polishing the baby | Language, location, timezone and other stuff
+### 6. Language, location, timezone and other stuff
 
-Depending on our language, we will have to go to the file `/etc/locale.gen` and uncomment the desires languages. In my case, I'm uncommenting en_GB.UTF-8 and es_ES.UTF-8
+Depending on our language, we will have to go to the file `/etc/locale.gen` and uncomment the desires languages. In my
+case, I'm modifying: `en_GB.UTF-8` and `es_ES.UTF-8`.
 
 ```zsh
 vi /etc/locale.gen
@@ -182,7 +188,7 @@ ln -s /usr/share/zoneinfo/Europe/Madrid > /etc/localtime
 ls -s /usr/share/zoneinfo/Europe/London > /etc/localtime
 ```
 
-And the time itself:
+The time itself:
 
 ```zsh
 hwclock --systohc --utc
@@ -203,7 +209,7 @@ loadkeys es
 KEYMAP=es
 ```
 
-Now we will set the hostname and the network
+Now we will set the hostname and the network.
 
 ```zsh
 echo name-of-your-machine > /etc/hostname
@@ -211,7 +217,7 @@ ystemctl enable dhcpcd@enp0s3.service
 systemctl enable dhcpcd.service
 ```
 
-Set root password and create an user
+Set root password and create a user:
 
 ```zsh
 passwrd
@@ -220,14 +226,14 @@ useradd -m -g users -G wheel,storage,power -s /bin/bash osedg
 passwd osedg
 ```
 
-Allow the users in wheel group to be able to preformance administrative tasks with sudo:
+Allow the users in wheel group to be able to perform administrative tasks with sudo:
 
 ```zsh
 # Uncomment the line: %wheel ALL=(ALL)
 EDITOR=nano visudo
 ```
 
-Install and configure bootloader:
+Install and configure _bootloader_:
 
 ```zsh
 # Let's create a config image of Linux
@@ -244,4 +250,22 @@ Now we will finish it off
 exit
 umount -R /mnt
 reboot
+```
+
+---
+
+## Post-installation
+
+After installing the OS, we are going to proceed to install KDE Plasma plus other few extra bits that we may need.
+
+Make sure to reboot the system if you haven't done it already, and check that all packages are updated.
+
+```zsh
+pacman -Syyuu
+```
+
+Now we will install all things we need.
+
+```zsh
+pacman -Sy xorg plasma kde -applications ttf-freefont firefox vlc gimp libreoffice htop flashplugin git wget
 ```

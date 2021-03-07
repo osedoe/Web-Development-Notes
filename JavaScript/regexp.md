@@ -1,7 +1,7 @@
 ---
 title: "Regular Expressions in JavaScript"   
 spoiler: "RegExp Cheatsheet"  
-tags: ["javascript", "notes", "regexp"]
+tags: ["javascript", "regexp"]
 slug: "regexp-js"
 contentType: "notes"
 published: true

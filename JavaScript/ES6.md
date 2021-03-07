@@ -1,7 +1,7 @@
 ---
 title: "New Features in ES6"   
 spoiler: "Review of ES6 functionalities"  
-tags: ["javascript", "notes"]
+tags: ["javascript"]
 slug: "ES6-new-features"
 contentType: "notes"
 published: true

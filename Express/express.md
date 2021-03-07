@@ -1,6 +1,6 @@
 # Express
 
-## Initialization
+## Initialization
 
 ```javascript
 import Express from 'express';
@@ -50,7 +50,7 @@ Output:
 
 ```json
 {
-    sortBy: "year"
+  sortBy: "year"
 }
 ```
 
@@ -62,7 +62,8 @@ req.body
 
 ## Middleware / Middleware function
 
-Functions that takes a request object and either returns a response to the client or passes control to another middleare function.
+Functions that takes a request object and either returns a response to the client or passes control to another middleare
+function.
 
 ### Examples
 
@@ -70,9 +71,12 @@ As an example, both the _route handler function+ and `express.json()` are middle
 
 ```javascript
 // Route handler function  
-...('/'), (req, res) => {
+...
+('/'), (req, res) => {
     // ...
-});
+}
+)
+;
 
 // express.json
 app.use(Express.json());
@@ -85,7 +89,7 @@ This middleware will read the body of the request and if there's a JSON object a
 The way to create a custom middleware is to wrap it with a _app.use_ function.
 
 ```javascript
-app.use( function(req, res, next) {
+app.use(function (req, res, next) {
     console.log('This is a middleware');
     next();
 });
@@ -101,7 +105,7 @@ Also, each middleware tends to be in a separate file or module.
 To pass information as _x-www-form-encoded.
 
 ```javascript
-app.use(Express.urlencoded({extended: true}));
+app.use(Express.urlencoded({ extended: true }));
 ```
 
 **Static:**  
@@ -127,17 +131,14 @@ app.use('static', Express.static('public'));
 
 **Research:**
 
--Helmet
--Morgan
+-Helmet -Morgan
 
 ## Environments
 
-This environment variable returns the type of environment of our application. By default, it returns undefined -but we can set it to:
+This environment variable returns the type of environment of our application. By default, it returns undefined -but we
+can set it to:
 
--Development
--Testing
--Staging
--Production
+-Development -Testing -Staging -Production
 
 ```javascript
 process.env.NODE_ENV // returns undefined by default
@@ -177,7 +178,7 @@ _Look up [documentation]()
 ```json
 {
   "name": "Movies App - Development",
-  "mail":{
+  "mail": {
     "host": "dev-mail-server"
   }
 }
@@ -188,7 +189,7 @@ _Look up [documentation]()
 ```json
 {
   "name": "Movies App - Production",
-  "mail":{
+  "mail": {
     "host": "prod-mail-server"
   }
 }
@@ -206,7 +207,8 @@ _Look up [documentation]()
 
 ## Debugging
 
-The [Debug](https://www.npmjs.com/package/debug) module returns a function that receives an argument that we will use for debugging.
+The [Debug](https://www.npmjs.com/package/debug) module returns a function that receives an argument that we will use
+for debugging.
 
 ```javascript
 const startupDebugger = Debug('app:startup');
@@ -230,12 +232,11 @@ export DEBUG=app:*
 
 ## Templating Engines
 
-As we have seen, every time we do a request we get returned a JSON object, but there are cases where we need to return an HTML page. In those cases, we will use **templating engines**.
+As we have seen, every time we do a request we get returned a JSON object, but there are cases where we need to return
+an HTML page. In those cases, we will use **templating engines**.
 
 The most famous ones are:
 
--Pug
--Mustache
--EJS
+-Pug -Mustache -EJS
 
 [NOT FINISHED...]
